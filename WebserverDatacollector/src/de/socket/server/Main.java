@@ -4,57 +4,43 @@ package de.socket.server;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
  
 public class Main {
 	
-	private static ServerSocket serverSocket;
-	public static final int PORT = 63040;
+	private static final int PORT_PI_CON = 66743;
+	private static final int PORT_BROWSER_CON = 80;
 	
-	private static Socket socket; 
-	
-	
-	private static File dataFile = new File("H://beispiel.txt");
-	private static File dataFile2 = new File("H://beispiel2.txt");
-	
+	private static File dataStoreFile = new File("data.txt");
 	
 	public static void main(String[] args) {
 		
-	
-		
-		try{
-			
-			serverSocket = new ServerSocket(PORT);
-			socket = serverSocket.accept();
-			
-			sendFile(socket, dataFile);
-			
-			
-//			BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));	
-//
-//			String line;
-//			PrintWriter dataWriter;
-//			while(true){
-//				line = reader.readLine();
-//				
-//				dataWriter = new PrintWriter(dataFile);
-//				dataWriter.println(line);
-//				System.out.println("received: '" + line + "'");
-//				dataWriter.close();
-//			}			
-			socket.close();
-		}catch(Exception exc){
-			exc.printStackTrace();
-		}
-		
+		startDataCollectorServer();
 		
 	}
 	
-	public static void sendFile(Socket s, File f){
+	
+	
+	public static void sendHTMLFile(Socket s){
+		try{
+			
+			//create HTML file
+			
+			File outputFile = new File("index.html");
+			
+			
+			sendRawFile(s, outputFile);			
+			
+		}catch(Exception exc){
+			
+		}
+	}
+	
+	public static void sendRawFile(Socket s, File f){
 		try{
 			FileInputStream fStream = new FileInputStream(f);
 			//TODO mehrere dateien nacheinander schicken (html /css)
@@ -71,5 +57,65 @@ public class Main {
 		}
 	}
 	
+	public static void startDataCollectorServer(){
+		(new Thread(){
+			public void run(){
+				this.setName("Server Data Collector Thread");
+				try{
+					ServerSocket serverSocket = new ServerSocket(PORT_PI_CON);
+					
+					while(true){
+						Socket socket = serverSocket.accept();
+						
+						BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+						
+						processData(reader.readLine());		
+						
+						socket.close();
+					}
+				}catch(Exception exc){}
+			}
+		}).start();
+	}
 	
+	public static void processData(String inputLine){
+		
+		//process
+		
+		storeDataInFile(inputLine);
+	}
+	
+	public static void storeDataInFile(String newData){
+		try{
+			System.out.println(newData);
+			PrintWriter writer = new PrintWriter(new FileWriter(dataStoreFile,true));
+			
+			writer.println(newData + "\n");			
+						
+			writer.close();
+		}catch(Exception exc){			
+		}
+	}
+	
+	public static void startBrowserServer(){
+		
+		(new Thread(){
+			public void run(){
+				this.setName("Browser Connector Thread");
+				
+				try{
+					ServerSocket serverSocket = new ServerSocket(PORT_BROWSER_CON);
+					
+					while(true){
+						Socket socket = serverSocket.accept();
+						
+						sendHTMLFile(socket);
+					}
+				}catch(Exception exc){
+					
+				}
+			}
+		}).start();
+		
+	}
 }
