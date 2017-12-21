@@ -15,7 +15,7 @@ public class Main {
 	private static ServerSocket serverSocket;
 	public static final int PORT = 63040;
 	
-	private static Socket socket;
+	private static Socket socket; 
 	
 	
 	private static File dataFile = new File("H://beispiel.txt");
