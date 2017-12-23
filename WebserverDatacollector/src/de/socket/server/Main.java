@@ -12,58 +12,30 @@ import java.net.Socket;
 
 public class Main {
 
-	private static final int PORT_PI_CON = 66743;
+	private static final int PORT_INCOMING_DATA = 66743;
 	private static final int PORT_BROWSER_CON = 80;
 
 	private static File dataStoreFile = new File("data.txt");
 
 	public static void main(String[] args) {
-
 		startDataCollectorServer();
-
 	}
 
-	public static void sendHTMLFile(Socket s) {
-		try {
-
-			// create HTML file
-
-			File outputFile = new File("index.html");
-
-			sendRawFile(s, outputFile);
-
-		} catch (Exception exc) {
-
-		}
-	}
-
-	public static void sendRawFile(Socket s, File f) {
-		try {
-			FileInputStream fStream = new FileInputStream(f);
-			// TODO mehrere dateien nacheinander schicken (html /css)
-			byte[] bytes = new byte[16 * 1024];
-
-			int count;
-			while ((count = fStream.read(bytes)) > 0) {
-				s.getOutputStream().write(bytes, 0, count);
-			}
-
-		} catch (Exception exc) {
-
-		}
-	}
+	//////
+	//////// Data Collector Server
+	//////
 
 	public static void startDataCollectorServer() {
 		(new Thread() {
 			public void run() {
-				this.setName("Server Data Collector Thread");
+				this.setName("data collector - Thread");
 				try {
-					ServerSocket serverSocket = new ServerSocket(PORT_PI_CON);
-
+					ServerSocket serverSocket = new ServerSocket(PORT_INCOMING_DATA);
+					BufferedReader reader;
 					while (true) {
 						Socket socket = serverSocket.accept();
 
-						BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+						reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
 						processData(reader.readLine());
 
@@ -94,6 +66,10 @@ public class Main {
 		}
 	}
 
+	//////
+	//////// Browser Server
+	//////
+
 	public static void startBrowserServer() {
 
 		(new Thread() {
@@ -107,6 +83,8 @@ public class Main {
 						Socket socket = serverSocket.accept();
 
 						sendHTMLFile(socket);
+
+						socket.close();
 					}
 				} catch (Exception exc) {
 
@@ -114,5 +92,37 @@ public class Main {
 			}
 		}).start();
 
+	}
+
+	//////
+	//////// Sending stuff
+	//////
+
+	public static void sendHTMLFile(Socket s) {
+		try {
+
+			// create HTML file
+			File outputFile = new File("index.html");
+
+			sendRawFile(s, outputFile);
+
+		} catch (Exception exc) {
+
+		}
+	}
+
+	public static void sendRawFile(Socket s, File f) {
+		try {
+			FileInputStream fStream = new FileInputStream(f);
+
+			byte[] bytes = new byte[16 * 1024];
+
+			int count;
+			while ((count = fStream.read(bytes)) > 0) {
+				s.getOutputStream().write(bytes, 0, count);
+			}
+
+		} catch (Exception exc) {
+		}
 	}
 }
