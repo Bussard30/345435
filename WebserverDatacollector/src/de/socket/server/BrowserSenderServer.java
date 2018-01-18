@@ -36,6 +36,7 @@ public class BrowserSenderServer {
 						sendHTMLFile(socket);
 
 						socket.close();
+						socket = null;
 					}
 
 					ss.close();
@@ -80,6 +81,7 @@ public class BrowserSenderServer {
 			out.println("Content-Type: text/html");
 			out.println("\r\n");
 			for (String line : lines) {
+				System.out.println("Sending: " + line);
 				out.println(line);
 			}
 			out.flush();
@@ -89,19 +91,4 @@ public class BrowserSenderServer {
 			exc.printStackTrace();
 		}
 	}
-
-	// public static void sendRawFile(Socket s, File f) {
-	// try {
-	// FileInputStream fStream = new FileInputStream(f);
-	//
-	// byte[] bytes = new byte[16 * 1024];
-	//
-	// int count;
-	// while ((count = fStream.read(bytes)) > 0) {
-	// s.getOutputStream().write(bytes, 0, count);
-	// }
-	//
-	// } catch (Exception exc) {
-	// }
-	// }
 }
