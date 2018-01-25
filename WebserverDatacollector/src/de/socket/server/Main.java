@@ -3,9 +3,6 @@ package de.socket.server;
 
 public class Main {
 
-
-	public static boolean online = true;
-
 	private static DataCollectionServer dataCollServer;
 	private static BrowserSenderServer browserSenderServer;
 
