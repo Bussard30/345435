@@ -31,7 +31,9 @@ public class BrowserSenderServer {
 				ServerSocket ss;
 				try {
 					ss = new ServerSocket(PORT_BROWSER_CON);
-
+					
+					System.out.println("started browser backfeeder");
+					
 					while (true) {
 						Socket socket = ss.accept();
 						System.out.println("Browser has connected");
