@@ -13,4 +13,9 @@ public class Main {
 		browserSenderServer = new BrowserSenderServer();
 		
 	}
+	
+	public static boolean isOnline()
+	{
+		return true;
+	}
 }

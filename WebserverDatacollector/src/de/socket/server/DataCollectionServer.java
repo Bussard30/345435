@@ -26,7 +26,7 @@ public class DataCollectionServer {
 				try {
 					ServerSocket ss = new ServerSocket(PORT_INCOMING_DATA);
 					BufferedReader reader;
-					while (Main.online) {
+					while (Main.isOnline()) {
 						Socket socket = ss.accept();
 
 						reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
