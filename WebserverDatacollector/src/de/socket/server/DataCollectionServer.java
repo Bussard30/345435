@@ -1,6 +1,5 @@
 package de.socket.server;
 
-import java.awt.SecondaryLoop;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -9,6 +8,8 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 public class DataCollectionServer {
@@ -88,12 +89,14 @@ public class DataCollectionServer {
 			writer.close();
 		}catch(Exception exc){}		
 	}
+	
+	
 
 	
-	private final File dataStoreDir = new File("H://arduinoDatenWebserver/");
+	public static final File dataStoreDir = new File("H://arduinoDatenWebserver/");
 	private void storeData(String inputLine){
 		dataStoreDir.mkdirs();
-		File dataFile = new File(dataStoreDir + "/data_" + getCurrentDate("dd_MM_yyyy") + ".txt");
+		File dataFile = new File(dataStoreDir + "/data_" + getCurrentDate("yyyy_MM_dd") + ".txt");
 		
 		try{
 		
@@ -111,7 +114,7 @@ public class DataCollectionServer {
 		
 	}
 	
-	private String getCurrentDate(){	return getCurrentDate("dd:MM:yyyy");	}
+	private String getCurrentDate(){	return getCurrentDate("yyyy:MM:dd");	}
 	private String getCurrentDate(String format){
 		Calendar calendar = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat(format);                

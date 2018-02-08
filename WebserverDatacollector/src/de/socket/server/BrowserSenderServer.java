@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class BrowserSenderServer {
 
@@ -104,6 +105,31 @@ public class BrowserSenderServer {
 		} catch (Exception exc) {
 			exc.printStackTrace();
 		}
+	}
+	
+	public float[][] loadDataFromFiles(int amount){
+		float[][] dataVals = new float[amount][7]; 
+		
+		
+		ArrayList<String> allLines = new ArrayList<String>();
+		//get last File
+		
+		String[] filesListed = DataCollectionServer.dataStoreDir.list();
+		Arrays.sort(filesListed);
+		
+		for(String s : filesListed)
+			System.out.println("file sorted: '" + s + "'");
+		
+		//read it and save lines
+		
+		//if amountlines < requiredamount
+		//	read file before that
+		
+		//transform lines into float array
+		
+		
+		
+		return dataVals;
 	}
 	
 	private int countBytes(String[] array){

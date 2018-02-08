@@ -12,6 +12,10 @@ public class Main {
 		dataCollServer = new DataCollectionServer();
 		browserSenderServer = new BrowserSenderServer();
 		
+		//TODO 
+		
+		browserSenderServer.loadDataFromFiles(1);
+		
 	}
 	
 	public static boolean isOnline()
