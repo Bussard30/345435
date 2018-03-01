@@ -37,12 +37,14 @@ public class BrowserSenderServer {
 					
 					while (true) {
 						Socket socket = ss.accept();
-						System.out.println("Browser has connected");
+						Logger.log("INFO", "Browser has connected");
 						
 						BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 						String line;
 						while((line = reader.readLine()) != null)
-							System.out.println("'" + line + "'");
+							Logger.log("INFO", "'" + line + "'");
+						
+						Logger.log("INFO","Browser connection input stream ended");
 						
 						sendHTMLFile(socket);
 

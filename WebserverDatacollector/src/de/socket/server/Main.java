@@ -12,7 +12,7 @@ public class Main {
 		dataCollServer = new DataCollectionServer();
 		browserSenderServer = new BrowserSenderServer();
 		
-		//TODO 
+		//TODO daten senden können
 		
 		browserSenderServer.loadDataFromFiles(1);
 		

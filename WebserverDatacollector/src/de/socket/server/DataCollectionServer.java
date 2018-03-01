@@ -21,10 +21,12 @@ public class DataCollectionServer {
 	}
 
 	public void start() {
+		System.out.println("lal");
 		(new Thread() {
 			public void run() {
 				this.setName("data collector - Thread");
 				try {
+					
 					ServerSocket ss = new ServerSocket(PORT_INCOMING_DATA);
 					BufferedReader reader;
 					System.out.println("started receiver loop for pi in wetterstation");
@@ -51,81 +53,59 @@ public class DataCollectionServer {
 	 * @param inputLine
 	 */
 	public void processData(String inputLine) {
+
+		// Reihenfolge: 'start, Luftdruck, Luftfeuchtigkeit, Lufttemperatur, Windgeschwindigkeit(km/h), Wetter, Regenzustand,end' 
 		
-		// macht aus 78.44;327;27.89;23;
+		// macht aus 78.44;327;27.89;23; (sieben stück)		
 		// ein float array
 		String[] valuesStr = inputLine.split(";");
-		float[] values = new float[7];
+		float[] values = new float[6];
+
+		if(valuesStr.length != values.length){
+			System.out.println("could not process inputs => amount of entered values doesn't ");
+		}
 		
-		for(int i = 0; i < valuesStr.length; i++)
-			try{
+		for (int i = 0; i < valuesStr.length; i++)
+			try {
 				values[i] = Float.parseFloat(valuesStr[i]);
-			}catch(Exception exc){
+			} catch (Exception exc) {
 				values[i] = -999;
 			}
-		
-		// process		
+
+		// process
 		storeData(convertToStorageFormat(values));
-		storeLog("INFO", "stored data");
+		Logger.storeLog("INFO", "stored data");
 	}
-	
-	public String convertToStorageFormat(float[] pureData){
-		return "AP:" + pureData[0] + "HUM:" + pureData[1];
+
+	public String convertToStorageFormat(float[] pureData) {
+		return "AP:" + pureData[0] + ":HUM:" + pureData[1] + ":TEMP:" + pureData[2] + ":SPEED:" + pureData[3] + ":WTR:" + pureData[4] + ":RGN:" + pureData[5];
 	}
-	
-	
-	private final File logFile = new File("H://arduinoDatenWebserver/log.txt");
-	private void storeLog(String lineHeader, String log){
-		
-		try{
-			//creates file IF FILE DOESNT YET EXIST
-			logFile.createNewFile();
-		
-			PrintWriter writer = new PrintWriter(new FileWriter(logFile, true));
-			
-			writer.println("[" + getCurrentDate() + "][" + getCurrentTime() + "] [" + lineHeader + "]: '" + log + "'");
-			writer.flush();
-			
-			writer.close();
-		}catch(Exception exc){}		
-	}
-	
-	
 
 	
+
 	public static final File dataStoreDir = new File("H://arduinoDatenWebserver/");
-	private void storeData(String inputLine){
+
+	private void storeData(String inputLine) {
 		dataStoreDir.mkdirs();
-		File dataFile = new File(dataStoreDir + "/data_" + getCurrentDate("yyyy_MM_dd") + ".txt");
-		
-		try{
-		
-			System.out.println("adding data to file: " + dataFile.getAbsolutePath());
-			//creates file IF FILE DOESNT YET EXIST
+		File dataFile = new File(dataStoreDir + "/data_" + Logger.getCurrentTime("yyyy_MM_dd") + ".txt");
+
+		try {
+
+			System.out.println("adding data to file: '" + dataFile.getAbsolutePath() + "'");
+			// creates file IF FILE DOESNT YET EXIST
 			dataFile.createNewFile();
-		
+
 			PrintWriter writer = new PrintWriter(new FileWriter(dataFile, true));
-			
-			writer.println("[" + getCurrentTime() + "]: '" + inputLine + "'");
+
+			writer.println("[" + Logger.getCurrentTime() + "]: '" + inputLine + "'");
 			writer.flush();
-			
-			writer.close();			
-		}catch(Exception exc){}
-		
+
+			writer.close();
+		} catch (Exception exc) {
+		}
+
 	}
+
 	
-	private String getCurrentDate(){	return getCurrentDate("yyyy:MM:dd");	}
-	private String getCurrentDate(String format){
-		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat(format);                
-        return sdf.format(calendar.getTime());		
-	}
-	
-	private String getCurrentTime(){	return getCurrentTime("HH:mm:ss");	}	
-	private String getCurrentTime(String format){
-		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat(format);                
-        return sdf.format(calendar.getTime());		
-	}
 
 }
