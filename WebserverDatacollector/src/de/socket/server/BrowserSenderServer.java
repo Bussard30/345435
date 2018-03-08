@@ -95,13 +95,14 @@ public class BrowserSenderServer {
 			String requestedPath = line.split(" ")[1];
 			
 			if(requestedPath.contains("..")){
-				System.out.println("accesDenied, auﬂerdem sind '/'es nicht zugelassen");				
+				System.out.println("accesDenied, auﬂerdem sind '/'es nicht zugelassen");
 			}else{
 				
-				if(requestedPath.equals("/")) 
-					requestedPath += "index.html";
+				if(requestedPath.equals("/"))
+//					requestedPath = "/index.html";
+					requestedPath = "F://MintX/Projekt 17-18/page.html";
 				 
-				requestedPath =  fileDir + requestedPath.substring(1);
+//				requestedPath =  fileDir + requestedPath.substring(1);
 				
 				try{
 					System.out.println("sending file");
@@ -118,52 +119,6 @@ public class BrowserSenderServer {
 	//////// Sending stuff
 	//////
 
-	
-	
-//	public void sendHTMLFile(Socket s) {
-//		try {
-//
-//			// read dummy html file & and put it into a String array
-//			ArrayList<String> lines = new ArrayList<String>();
-//			BufferedReader in = new BufferedReader(new FileReader(new File("dummyHTML.html")));
-//			String ln;
-//			while ((ln = in.readLine()) != null)
-//				lines.add(ln);
-//			in.close();
-//
-//			// manipulate lines
-//			for (int i = 0; i < lines.size(); i++) {
-//				ln = lines.get(i);
-//
-//				// TODO gesammelte Werte implementieren
-//
-//				ln = ln.replace(DUMMY_HTML_REPLACE_MARKER_HUMID, "Das hier sind verschiedene Luftfeuchtigkeiten");
-//				ln = ln.replace(DUMMY_HTML_REPLACE_MARKER_TEMP, "Das hier sind verschiedene Temperaturen");
-//
-//				lines.set(i, ln);
-//			}
-//
-//			// send them
-//			PrintWriter out = new PrintWriter(s.getOutputStream());
-//			out.println("HTTP/1.1 200 OK");
-//			out.println("Server: Apache/1.3.29 PHP/4.3.4");
-//			out.println("Content-Length: " + countBytes(lines.toArray(new String[0])));
-//			out.println("Content-Language: de");
-//			out.println("Connection: close");
-//			out.println("Content-Type: text/html");
-//			out.println("\r\n");
-//			for (String line : lines) {
-//				System.out.println("Sending: " + line);
-//				out.println(line);
-//			}
-//			out.flush();
-//			out.close();
-//
-//		} catch (Exception exc) {
-//			exc.printStackTrace();
-//		}
-//	}
-	
 	private void sendFile(InputStream in, OutputStream out){
 		
 		PrintWriter writer = new PrintWriter(out);
@@ -181,10 +136,10 @@ public class BrowserSenderServer {
 		try{
 			byte[] buf = new byte[1000];
 			int bytes; 
-			while((bytes = in.read(buf)) != 1){
+			while((bytes = in.read(buf)) != -1){
 				out.write(buf, 0, bytes);
-				System.out.write(buf,  0,  bytes);
-				System.out.println("writing bytes to browser one byte: " + buf[0]);
+//				System.out.write(buf,  0,  bytes);
+//				System.out.println("writing bytes to browser one byte: " + buf[0]);
 			}
 			System.out.println("finsished sending");
 		}catch(Exception e){
@@ -204,15 +159,6 @@ public class BrowserSenderServer {
 		
 		for(String s : filesListed)
 			System.out.println("file sorted: '" + s + "'");
-		
-		//read it and save lines
-		
-		//if amountlines < requiredamount
-		//	read file before that
-		
-		//transform lines into float array
-		
-		
 		
 		return dataVals;
 	}
