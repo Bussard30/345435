@@ -100,7 +100,7 @@ public class BrowserSenderServer {
 				
 				if(requestedPath.equals("/")) 
 					requestedPath += "index.html";
-				
+				 
 				requestedPath =  fileDir + requestedPath.substring(1);
 				
 				try{
