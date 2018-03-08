@@ -98,7 +98,7 @@ public class BrowserSenderServer {
 				System.out.println("accesDenied, auﬂerdem sind '/'es nicht zugelassen");				
 			}else{
 				
-				if(requestedPath.equals("/"))
+				if(requestedPath.equals("/")) 
 					requestedPath += "index.html";
 				
 				requestedPath = fileDir + requestedPath.substring(1);
