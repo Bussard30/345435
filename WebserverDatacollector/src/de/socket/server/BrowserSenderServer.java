@@ -101,7 +101,7 @@ public class BrowserSenderServer {
 				if(requestedPath.equals("/")) 
 					requestedPath += "index.html";
 				
-				requestedPath = fileDir + requestedPath.substring(1);
+				requestedPath =  fileDir + requestedPath.substring(1);
 				
 				try{
 					System.out.println("sending file");
