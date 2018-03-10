@@ -40,4 +40,8 @@ public class Logger {
 	public static String getCurrentTime(String format) {
 		return new SimpleDateFormat(format).format(Calendar.getInstance().getTime());
 	}
+	
+	public static void newLine() {
+		System.out.println();
+	}
 }

@@ -14,7 +14,7 @@ public class Main {
 		
 		//TODO daten senden können
 		
-		browserSenderServer.loadDataFromFiles(1);
+//		browserSenderServer.loadDataFromFiles(1);
 		
 	}
 	

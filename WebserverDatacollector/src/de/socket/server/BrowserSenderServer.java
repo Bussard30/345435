@@ -6,17 +6,17 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 
 public class BrowserSenderServer {
 
-	public static final int PORT_BROWSER_CON = 80;
+	public static final int PORT_BROWSER_CON = 1234;
 
-	private String fileDir = "files/";
+//	private String fileDir = "files/";
+	private String fileDir = "H:/Programmieren/Javascript/GET request testing";
 	
 //	public static final String DUMMY_HTML_REPLACE_MARKER_TEMP = "ARDUINO_TEMP";
 //	public static final String DUMMY_HTML_REPLACE_MARKER_HUMID = "ARDUINO_HUMID";
@@ -56,9 +56,12 @@ public class BrowserSenderServer {
 					
 					BufferedReader reader;
 					Socket connection;
+					OutputStream out;
 					while (true) {
 						connection = serverSocket.accept();
-						Logger.log("INFO", "Browser has connected");
+						out = connection.getOutputStream();
+						Logger.newLine();
+						Logger.log("INFO", "Browser has connected: '" + connection.getInetAddress() + ":" + connection.getPort() + "'");
 						
 						//init reader
 						reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -68,11 +71,11 @@ public class BrowserSenderServer {
 						String line;
 						
 						while(!(line = reader.readLine()).equals("")){
-							Logger.log("REC", "'" + line + "'");
-							processReceivedLine(line, connection.getOutputStream());							
+//							Logger.log("REC", "'" + line + "'");
+							processReceivedLine(line, out);							
 						}
 						
-						Logger.log("INFO","Browser send a empty line, therefore the end of the http request was reached");						
+//						Logger.log("INFO","Browser send a empty line, therefore the end of the http request was reached");						
 //						sendHTMLFile(socket);					
 						
 						
@@ -92,21 +95,32 @@ public class BrowserSenderServer {
 //			System.out.println("received line is not a GET request!");
 		}else{
 			
-			String requestedPath = line.split(" ")[1];
+			String requestedFile = line.split(" ")[1];
 			
-			if(requestedPath.contains("..")){
-				System.out.println("accesDenied, auﬂerdem sind '/'es nicht zugelassen");
+			if(requestedFile.contains("..")){
+				System.out.println("accesDenied, auﬂerdem sind '/'es nicht zugelassen");				
 			}else{
 				
-				if(requestedPath.equals("/"))
+				if(requestedFile.equals("/"))
+					requestedFile = "/index.html";
 //					requestedPath = "/index.html";
-					requestedPath = "F://MintX/Projekt 17-18/page.html";
+//					requestedPath = "F://MintX/Projekt 17-18/page.html";
 				 
 //				requestedPath =  fileDir + requestedPath.substring(1);
 				
+				File f = new File(fileDir + requestedFile);
+				
+				if(!f.exists()) {
+					Logger.log("404", "requested file was not found");
+					sendHTTPResponse404(out);					
+//					sendFileNotFoundHTTPHeader(out);					
+					return;
+				}
+				
 				try{
-					System.out.println("sending file");
-					sendFile(new FileInputStream(new File(requestedPath)), out);
+					Logger.log("SENDING", "sending file '" + requestedFile + "'");
+					sendHTTPResponse200(out, guessContentType(requestedFile));
+					sendFile(new FileInputStream(f), out);
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -121,18 +135,6 @@ public class BrowserSenderServer {
 
 	private void sendFile(InputStream in, OutputStream out){
 		
-		PrintWriter writer = new PrintWriter(out);
-		
-		writer.print("HTTP/1.1 200 OK\r\n");
-//				Date: Mon, 11 Mar 2013 11:17:09 GMT
-//				Server: Apache
-//				X-Powered-By: PHP/5.3.8
-//				Vary: Accept-Encoding
-//				Content-Encoding: gzip
-//				Content-Length: 832
-//				Keep-Alive: timeout=1, max=100
-//				Connection: Keep-Alive
-		writer.print("Content-Type: text/htm\r\n\r\n");
 		try{
 			byte[] buf = new byte[1000];
 			int bytes; 
@@ -141,32 +143,78 @@ public class BrowserSenderServer {
 //				System.out.write(buf,  0,  bytes);
 //				System.out.println("writing bytes to browser one byte: " + buf[0]);
 			}
-			System.out.println("finsished sending");
 		}catch(Exception e){
 			e.printStackTrace();
 		}		
 	}
 	
-	public float[][] loadDataFromFiles(int amount){
-		float[][] dataVals = new float[amount][7]; 
-		
-		
-		ArrayList<String> allLines = new ArrayList<String>();
-		//get last File
-		
-		String[] filesListed = DataCollectionServer.dataStoreDir.list();
-		Arrays.sort(filesListed);
-		
-		for(String s : filesListed)
-			System.out.println("file sorted: '" + s + "'");
-		
-		return dataVals;
+	public void sendHTTPResponse404(OutputStream out) {
+		PrintStream pout = new PrintStream(out);
+		pout.print("HTTP/1.1 404\r\n"
+				+ "Date: " + new Date() + "\r\n"
+				+ "Server: FileServer 1.0\r\n\r\n");
 	}
 	
-	private int countBytes(String[] array){
-		int size = 0;
-		for(String str: array)
-			size += str.getBytes().length;
-		return size;
+	public void sendHTTPResponse200(OutputStream out, String contentType) {
+		PrintStream pout = new PrintStream(out);
+		
+		pout.print("HTTP/1.1 200 OK\r\n"
+				+ "Content-Type: " + contentType + "\r\n"
+				+ "Date: " + new Date() + "\r\n"
+				+ "Server: FileServer 1.0\r\n\r\n");
 	}
+	
+//	public void sendHTTPProtocolHeader(OutputStream out, String contentType) {
+//		PrintStream pout = new PrintStream(out);
+//		
+//		pout.print("HTTP/1.1 200 OK\r\n"
+//				+ "Content-Type: " + contentType + "\r\n"
+//				+ "Date: " + new Date() + "\r\n"
+//				+ "Server: FileServer 1.0\r\n\r\n");
+//		
+////		System.out.print("HTTP/1.1 200 OK\r\n"
+////				+ "Content-Type: " + contentType + "\r\n"
+////						+ "Date: " + new Date() + "\r\n"
+////								+ "Server: FileServer 1.0\r\n\r\n");
+//	}
+//	
+//	public void sendFileNotFoundHTTPHeader(OutputStream out) {
+//		PrintStream pout = new PrintStream(out);
+//		pout.print("HTTP/1.1 404\r\n"
+//				+ "Date: " + new Date() + "\r\n"
+//				+ "Server: FileServer 1.0\r\n\r\n");
+//		
+//	}
+	
+	private String guessContentType(String path) {
+		if (path.endsWith(".html") || path.endsWith(".htm")) 
+            return "text/html";
+        else if (path.endsWith(".js"))
+        	return "application/javascript";        
+        else    
+            return "text/plain";
+	}
+	
+//	public float[][] loadDataFromFiles(int amount){
+//		float[][] dataVals = new float[amount][7]; 
+//		
+//		
+//		ArrayList<String> allLines = new ArrayList<String>();
+//		//get last File
+//		
+//		String[] filesListed = DataCollectionServer.dataStoreDir.list();
+//		Arrays.sort(filesListed);
+//		
+//		for(String s : filesListed)
+//			System.out.println("file sorted: '" + s + "'");
+//		
+//		return dataVals;
+//	}
+//	
+//	private int countBytes(String[] array){
+//		int size = 0;
+//		for(String str: array)
+//			size += str.getBytes().length;
+//		return size;
+//	}
 }
