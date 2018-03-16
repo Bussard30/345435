@@ -171,7 +171,7 @@ public class BrowserSenderServer {
 			
 			
 			//get last data sets
-			String[] dataSets = getLastDataSets(10);
+			String[] dataSets = getLastDataSets(10); 
 			
 			//write them into the export file
 			for(String dataSet : dataSets)
