@@ -7,10 +7,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 
 public class DataCollectionServer {
 
@@ -54,37 +50,43 @@ public class DataCollectionServer {
 	 */
 	public void processData(String inputLine) {
 
-		// Reihenfolge: 'start, Luftdruck, Luftfeuchtigkeit, Lufttemperatur, Windgeschwindigkeit(km/h), Wetter, Regenzustand,end' 
-		
-		// macht aus 78.44;327;27.89;23; (sieben stück)		
-		// ein float array
-		String[] valuesStr = inputLine.split(";");
-		float[] values = new float[6];
-
-		if(valuesStr.length != values.length){
-			System.out.println("could not process inputs => amount of entered values doesn't ");
-		}
-		
-		for (int i = 0; i < valuesStr.length; i++)
-			try {
-				values[i] = Float.parseFloat(valuesStr[i]);
-			} catch (Exception exc) {
-				values[i] = -999;
-			}
-
-		// process
-		storeData(convertToStorageFormat(values));
-		Logger.storeLog("INFO", "stored data");
+//		// Reihenfolge: 'start, Luftdruck, Luftfeuchtigkeit, Lufttemperatur, Windgeschwindigkeit(km/h), Wetter, Regenzustand,end' 
+//		
+//		// macht aus 78.44;327;27.89;23; (sieben stück)		
+//		// ein float array
+//		String[] valuesStr = inputLine.split(";");
+//		float[] values = new float[6];
+//
+//		if(valuesStr.length != values.length){
+//			System.out.println("could not process inputs => amount of entered values doesn't equal " + values.length);
+//		}
+//		
+//		boolean successfull = true;
+//		for (int i = 0; i < valuesStr.length; i++) {
+//			try {
+//				values[i] = Float.parseFloat(valuesStr[i]);
+//			} catch (Exception exc) {
+//				successfull = false;
+//				break;
+//			}
+//		}
+//		
+//		// process
+//		if(successfull) {
+//			storeData(convertToStorageFormat(values));
+		storeData(inputLine);
+//			Logger.storeLog("INFO", "stored data");
+//		}else {
+//			Logger.storeLog("ERROR", "could not parse values from arduino to float");
+//		}
 	}
 
 	public String convertToStorageFormat(float[] pureData) {
-		return "AP:" + pureData[0] + ":HUM:" + pureData[1] + ":TEMP:" + pureData[2] + ":SPEED:" + pureData[3] + ":WTR:" + pureData[4] + ":RGN:" + pureData[5];
-	}
+//		return "AP:" + pureData[0] + ":HUM:" + pureData[1] + ":TEMP:" + pureData[2] + ":SPEED:" + pureData[3] + ":WTR:" + pureData[4] + ":RGN:" + pureData[5];
+		return pureData[0] + ":" + pureData[1] + ":" + pureData[2] + ":" + pureData[3] + ":" + pureData[4] + ":" + pureData[5];
+	}	
 
-	
-
-	public static final File dataStoreDir = new File("H://arduinoDatenWebserver/");
-
+	public static final File dataStoreDir = new File("arduinoDatenWebserver/");
 	private void storeData(String inputLine) {
 		dataStoreDir.mkdirs();
 		File dataFile = new File(dataStoreDir + "/data_" + Logger.getCurrentTime("yyyy_MM_dd") + ".txt");
@@ -97,7 +99,7 @@ public class DataCollectionServer {
 
 			PrintWriter writer = new PrintWriter(new FileWriter(dataFile, true));
 
-			writer.println("[" + Logger.getCurrentTime() + "]: '" + inputLine + "'");
+			writer.println("[" + Logger.getCurrentTime() + "]:" + inputLine + "");
 			writer.flush();
 
 			writer.close();

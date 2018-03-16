@@ -3,47 +3,34 @@ package de.socket.server;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 public class BrowserSenderServer {
 
 	public static final int PORT_BROWSER_CON = 1234;
 
-//	private String fileDir = "files/";
-	private String fileDir = "H:/Programmieren/Javascript/GET request testing";
-	
-//	public static final String DUMMY_HTML_REPLACE_MARKER_TEMP = "ARDUINO_TEMP";
-//	public static final String DUMMY_HTML_REPLACE_MARKER_HUMID = "ARDUINO_HUMID";
-//	public static final String DUMMY_HTML_REPLACE_MARKER_AIRQUAL = "ARDUINO_AIRQUAL";
-//	public static final String DUMMY_HTML_REPLACE_MARKER_WINDSPD = "ARDUINO_WINDSPD";
+//	private String fileDir = "H:/Programmieren/Javascript/GET request testing/";
+	private String fileDir = "files/";
 
-//	private File fileIndex;
-//	private File fileCSS;
-//	private File fileJavaScript;
-//	
-//	private File loadFile(String fileName){
-//		return new File(fileDir + fileName);
-//	}
-//	
-//	private void loadFileToMemory(){
-//		fileIndex = loadFile("index.html");
-//		fileCSS = loadFile("css.css");
-//		fileJavaScript = loadFile("javascript.js");
-//	}
-	
-	public BrowserSenderServer() {		
-//		loadFileToMemory();
-		
+	public BrowserSenderServer() {
 		start();
 	}
 
 	public void start() {
+		
+		getLastDataSets(4);
+		
 		(new Thread() {
 			public void run() {
 				this.setName("Browser Sender Thread");
@@ -60,25 +47,19 @@ public class BrowserSenderServer {
 					while (true) {
 						connection = serverSocket.accept();
 						out = connection.getOutputStream();
+						reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+						
 						Logger.newLine();
 						Logger.log("INFO", "Browser has connected: '" + connection.getInetAddress() + ":" + connection.getPort() + "'");
 						
-						//init reader
-						reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-						
-						
-						//first line = get request header						
+
+						//process all incoming lines
 						String line;
-						
 						while(!(line = reader.readLine()).equals("")){
-//							Logger.log("REC", "'" + line + "'");
 							processReceivedLine(line, out);							
 						}
 						
-//						Logger.log("INFO","Browser send a empty line, therefore the end of the http request was reached");						
-//						sendHTMLFile(socket);					
-						
-						
+						//close connection
 						connection.close();
 					}
 				} catch (Exception exc) {
@@ -106,12 +87,17 @@ public class BrowserSenderServer {
 //					requestedPath = "/index.html";
 //					requestedPath = "F://MintX/Projekt 17-18/page.html";
 				 
+				if(requestedFile.equals("/dataFile.txt")) 
+					requestedFile = createDataFileIfDoesntExist().getName();
+				
+					
+				
 //				requestedPath =  fileDir + requestedPath.substring(1);
 				
 				File f = new File(fileDir + requestedFile);
 				
 				if(!f.exists()) {
-					Logger.log("404", "requested file was not found");
+					Logger.log("404", "requested file was not found: '" + requestedFile + "'");
 					sendHTTPResponse404(out);					
 //					sendFileNotFoundHTTPHeader(out);					
 					return;
@@ -164,30 +150,8 @@ public class BrowserSenderServer {
 				+ "Server: FileServer 1.0\r\n\r\n");
 	}
 	
-//	public void sendHTTPProtocolHeader(OutputStream out, String contentType) {
-//		PrintStream pout = new PrintStream(out);
-//		
-//		pout.print("HTTP/1.1 200 OK\r\n"
-//				+ "Content-Type: " + contentType + "\r\n"
-//				+ "Date: " + new Date() + "\r\n"
-//				+ "Server: FileServer 1.0\r\n\r\n");
-//		
-////		System.out.print("HTTP/1.1 200 OK\r\n"
-////				+ "Content-Type: " + contentType + "\r\n"
-////						+ "Date: " + new Date() + "\r\n"
-////								+ "Server: FileServer 1.0\r\n\r\n");
-//	}
-//	
-//	public void sendFileNotFoundHTTPHeader(OutputStream out) {
-//		PrintStream pout = new PrintStream(out);
-//		pout.print("HTTP/1.1 404\r\n"
-//				+ "Date: " + new Date() + "\r\n"
-//				+ "Server: FileServer 1.0\r\n\r\n");
-//		
-//	}
-	
 	private String guessContentType(String path) {
-		if (path.endsWith(".html") || path.endsWith(".htm")) 
+		if (path.endsWith(".html") || path.endsWith(".htm"))
             return "text/html";
         else if (path.endsWith(".js"))
         	return "application/javascript";        
@@ -195,26 +159,82 @@ public class BrowserSenderServer {
             return "text/plain";
 	}
 	
-//	public float[][] loadDataFromFiles(int amount){
-//		float[][] dataVals = new float[amount][7]; 
-//		
-//		
-//		ArrayList<String> allLines = new ArrayList<String>();
-//		//get last File
-//		
-//		String[] filesListed = DataCollectionServer.dataStoreDir.list();
-//		Arrays.sort(filesListed);
-//		
-//		for(String s : filesListed)
-//			System.out.println("file sorted: '" + s + "'");
-//		
-//		return dataVals;
-//	}
-//	
-//	private int countBytes(String[] array){
-//		int size = 0;
-//		for(String str: array)
-//			size += str.getBytes().length;
-//		return size;
-//	}
+	private File dataExportFile = new File(fileDir + "dataExportFile.txt");
+	private File createDataFileIfDoesntExist() {
+		//TODO only create a new file, if data was updated!
+		try {
+			Logger.log("INFO", "created new data export file");
+			//create new data export file, if it doesnt yet exist
+			dataExportFile.createNewFile();
+			
+			PrintWriter writer = new PrintWriter(new FileWriter(dataExportFile, false));
+			
+			
+			//get last data sets
+			String[] dataSets = getLastDataSets(10);
+			
+			//write them into the export file
+			for(String dataSet : dataSets)
+				writer.println(dataSet);			
+			
+			
+			writer.close();
+			
+			return dataExportFile;
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;	
+	}
+	
+	private String[] getLastDataSets(int amount) {
+		String[] dataSets = new String[amount];
+		
+		File[] files = DataCollectionServer.dataStoreDir.listFiles();
+		if(files == null)
+			return null;
+		Arrays.sort(files);
+		
+//		for(File f : files)
+//			System.out.println(f.getName());
+		
+		//now get the newest 10 datasets
+		int dataSetsCn = 0;
+		int filesTried = 0;
+		BufferedReader reader;
+		ArrayList<String> dataSetsFile;
+		while(dataSetsCn < amount) {
+			
+			//try a new file
+			try {
+				//put all dataSets from the file into a ArrayList
+				if(filesTried >= files.length)
+					break;
+				reader = new BufferedReader(new FileReader(files[filesTried]));				
+				
+				dataSetsFile = new ArrayList<String>();				
+				String line;
+				while((line = reader.readLine()) != null) 
+					dataSetsFile.add(line);				
+				
+				//loop through dataSet lines and add them to the dataSets Array
+				for(int i = dataSetsFile.size()-1; i >= 0; i--) {
+					dataSets[dataSetsCn] = dataSetsFile.get(i);
+					dataSetsCn++;
+					
+					if(dataSetsCn >= amount)
+						break;
+				}
+				
+				filesTried++;
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return dataSets;
+	}
 }
