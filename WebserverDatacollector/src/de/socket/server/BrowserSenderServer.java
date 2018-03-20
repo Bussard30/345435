@@ -171,11 +171,11 @@ public class BrowserSenderServer {
 			
 			
 			//get last data sets
-			String[] dataSets = getLastDataSets(10); 
+			String dataSets = getLastDataSets(10); 
 			
 			//write them into the export file
-			for(String dataSet : dataSets)
-				writer.println(dataSet);			
+//			for(String dataSet : dataSets)
+			writer.println(dataSets);			
 			
 			
 			writer.close();
@@ -189,8 +189,8 @@ public class BrowserSenderServer {
 		return null;	
 	}
 	
-	private String[] getLastDataSets(int amount) {
-		String[] dataSets = new String[amount];
+	private String getLastDataSets(int amount) {
+		String dataSets = "";
 		
 		File[] files = DataCollectionServer.dataStoreDir.listFiles();
 		if(files == null)
@@ -221,7 +221,7 @@ public class BrowserSenderServer {
 				
 				//loop through dataSet lines and add them to the dataSets Array
 				for(int i = dataSetsFile.size()-1; i >= 0; i--) {
-					dataSets[dataSetsCn] = dataSetsFile.get(i);
+					dataSets += dataSetsFile.get(i);
 					dataSetsCn++;
 					
 					if(dataSetsCn >= amount)
