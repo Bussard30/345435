@@ -17,4 +17,4 @@ function httpGet(theUrl)
     xmlHttp.open("GET", theUrl, true); // true for asynchronous 
     xmlHttp.send();    
 }
-
+ 
