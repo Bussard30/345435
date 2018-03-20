@@ -11,9 +11,10 @@ function httpGet(theUrl)
 
     	//das hier wird sozusagen ausgeführt wenn man die Datei zurückbekommt
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200)        	
-        	console.log("here comes the response text: " + xmlHttp.responseText);
+        	console.log("here comes the response text: '" + xmlHttp.responseText + "'");
 
     }
     xmlHttp.open("GET", theUrl, true); // true for asynchronous 
     xmlHttp.send();    
 }
+
