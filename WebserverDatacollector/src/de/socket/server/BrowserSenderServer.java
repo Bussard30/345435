@@ -175,7 +175,7 @@ public class BrowserSenderServer {
 			
 			//write them into the export file
 //			for(String dataSet : dataSets)
-			writer.println(dataSets);			
+			writer.println(dataSets);
 			
 			
 			writer.close();
