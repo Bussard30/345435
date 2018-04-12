@@ -81,9 +81,9 @@ public class DataCollectionServer {
 //		}
 	}
 
-	public String convertToStorageFormat(float[] pureData) {
-		return pureData[0] + ":" + pureData[1] + ":" + pureData[2] + ":" + pureData[3] + ":" + pureData[4] + ":" + pureData[5];
-	}
+//	public String convertToStorageFormat(float[] pureData) {
+//		return pureData[0] + ":" + pureData[1] + ":" + pureData[2] + ":" + pureData[3] + ":" + pureData[4] + ":" + pureData[5];
+//	}
 
 	public static final File dataStoreDir = new File("arduinoDatenWebserver/");
 	private void storeData(String inputLine) {
