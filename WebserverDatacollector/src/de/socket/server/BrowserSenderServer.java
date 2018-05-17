@@ -55,7 +55,7 @@ public class BrowserSenderServer {
 
 						//process all incoming lines
 						String line;
-						while(!(line = reader.readLine()).equals("")){
+						while((line = reader.readLine()) != null && !line.equals("")){
 							processReceivedLine(line, out);							
 						}
 						
@@ -217,11 +217,11 @@ public class BrowserSenderServer {
 				dataSetsFile = new ArrayList<String>();				
 				String line;
 				while((line = reader.readLine()) != null) 
-					dataSetsFile.add(line);				
+					dataSetsFile.add(line.split("'")[1]);				
 				
 				//loop through dataSet lines and add them to the dataSets Array
 				for(int i = dataSetsFile.size()-1; i >= 0; i--) {
-					dataSets += dataSetsFile.get(i);
+					dataSets += dataSetsFile.get(i) + " ";
 					dataSetsCn++;
 					
 					if(dataSetsCn >= amount)

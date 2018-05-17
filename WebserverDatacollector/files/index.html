@@ -1,7 +1,860 @@
+<!DOCTYPE html>
+
 <html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<style>
+body {
+	font-family: Arial, serif;
+	font-size: 20pt;
+	text-align: center;
+	background: rgba(10,10,130,1);
+	color: black;
+	letter-spacing: -1px;
+	background-attachment: fixed;
+	cursor: default;
+	word-wrap: break-word;
+}
 
-<script src="main.js"></script>
+ /* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+	cursor: pointer;
+	
+}
 
-Hallo!
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 240px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+	font-size:14pt;
+	font-family: Arial;
+	letter-spacing: 1px;
 
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+} 
+
+.impressum {
+	font-size: 14pt;
+	font-family: Carier;
+	width: 70%;
+	margin-right:auto;
+	margin-left:auto;
+	background-color: rgb(80,80,220);
+	color:white;
+	margin-top: 5%;
+	cursor: text;
+}
+
+.icon {
+	width: auto;
+	height: 40px;
+	margin-right: 5px;
+}
+
+div {
+	cursor: default;
+	letter-spacing: 2px
+}
+
+table {
+	cursor: default;
+	letter-spacing: 2px
+}
+
+canvas {
+	cursor: ;
+}
+
+.head {
+	background-color: rgba(200,130,10,1);
+	border: 2px solid rgba(200,230,10,1);
+	text-shadow: 0px 0px 5px black;
+	color: white;
+	margin-left: 50px;
+	margin-right: 50px;
+	height: auto;
+	padding: 20px;
+	font-size: 26pt;
+	box-shadow: 0px 0px 5px black;
+}
+
+.body {
+	background-color: rgba(0,102,153,0.6);
+	margin-left: auto;
+	margin-right: auto;
+	padding: 3px;
+	width: 80%;
+	text-align: center;
+	font-size: 16pt;
+	border-left: 2px solid rgba(0, 102, 180, 0.8);
+	border-right: 2px solid rgba(0, 102, 180, 0.8);
+	border-bottom: 2px solid rgba(0, 102, 180, 0.8);
+}
+
+.bodyhead {
+	background-color: rgba(0,102,200,0.6);
+	margin-top: 50px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 85%;
+	padding: 3px;
+	font-size: 20pt;
+	border: 2px solid rgba(0, 102, 180, 0.8);
+}
+
+.linkbox {
+	background-color: rgba(50,0,0,0.6);
+	margin-top: 50px;
+	margin-left: 110px;
+	margin-right: 110px;
+	margin-bottom: 50px;
+	padding: 3px;
+	font-size: 20pt;
+	border: 2px solid rgba(100, 0, 0, 0.8);
+	text-align: center;
+	border-radius:10px;
+}
+
+.link{
+	border: 1px solid black;
+	border-radius: 5px;
+	background: linear-gradient(white,rgb(200,200,200));
+	margin-left:auto;
+	width:50%;
+	margin-right:auto;
+	font-size: 30pt;
+	color: rgb(110,110,110);
+	height: auto;
+	transition: transform 0.1s ease-in;
+	margin-top:10px;
+	margin-bottom:10px;
+	font-family: impact;
+	text-shadow: 1px 1px 0px black;
+	cursor: pointer;
+	letter-spacing: 10px;
+	padding: 5px;
+}
+
+.link:hover {
+	transform: scale(1.05,1.05);
+}
+
+a:link {
+	display:inline;
+	text-decoration: none;
+	display:inline;
+}
+a:visited {
+	color: rgba(255,0,0,1);
+	text-decoration: none;
+}
+a:hover {
+
+	transition: skale(10%,10%);
+}
+a:active {
+	color: rgba(255,102,0,1);
+	text-decoration: underline;
+}
+
+td {
+	width: 40%;
+	padding: 5px;
+}
+
+td.link {
+	width: auto;
+}
+
+button {
+	height:50px;
+	width:auto;
+	font-size:16pt;
+	color: rgba(0,0,200,1);
+	background-color: lightblue;
+	border: 1px solid blue;
+	display: inline-block;
+	margin-top:20px;
+	border-radius:10px;
+}
+
+.inline {
+	display: inline;
+	margin: 20px;
+}
+</style>
+<title> MINTeX - WGG </title>
+</head>
+<body>
+<div class="head">
+MINTeX 2017/2018 Showing our Weather / Unser Wetter zeigen
+</div>
+<div class="bodyhead">
+This-Hour-Data/Daten der Stunde:
+</div>
+<table class="body">
+<tr>
+<td>
+Temperature/Temperatur:
+</td>
+<td id="tempBox">
+ARDUINO_TEMP&#8451;
+</td>
+</tr>
+<tr>
+<td>
+Humidity/Luftfeuchtigkeit:
+</td>
+<td id="humidBox">
+ARDUINO_HUMID%
+</td>
+</tr>
+
+<tr>
+<td>
+windspeed/Windgeschwindigkeit:
+</td>
+<td id="speedBox">
+ARDUINO_WINDSPDkm/h
+</td>
+</tr>
+
+<tr>
+<td>
+Air-Pressure / Luftdruck:
+</td>
+<td id="pressBox">
+ARDUINO_AIRPRESShPa
+</td>
+</tr>
+<tr>
+<td>
+Raining / Regen:
+</td>
+<td id="rainBox">
+Raining
+</td>
+</tr>
+<tr>
+<td>
+Weather / Wetter:
+</td>
+<td id="weatherBox">
+Weather
+</td>
+</tr>
+</table>
+<div>
+
+
+<div class="bodyhead">
+Diagrams/Diagramme:
+</div>
+<div class="body">
+<div>
+<canvas id="diagram_temperature" style="border-radius:5px;margin-left:auto;maring-right:auto;width:75%;border:1px solid #000000;">
+</div>
+</div>
+<div class="body">
+<div>
+<canvas id="diagram_percs" style="border-radius:5px;margin-left:auto;maring-right:auto;width:75%;border:1px solid #000000;">
+</div>
+</div>
+
+<div class="body">
+<div>
+<canvas id="diagram_windspeed" style="border-radius:5px;margin-left:auto;maring-right:auto;width:75%;border:1px solid #000000;">
+</div>
+</div>
+
+<div class="body">
+<div>
+<canvas id="diagram_airpressure" style="border-radius:5px;margin-left:auto;maring-right:auto;width:75%;border:1px solid #000000;">
+</div>
+</div>
+<div class="bodyhead">
+Our Info/Infos &Uuml;ber uns:
+</div>
+<table class="body">
+<tr>
+<td>
+Lastname/Firstname; Vorname/Nachname:
+</td>
+<td>
+Class/Klasse:
+</td>
+</tr>
+<tr>
+<td>
+Bayer Jan
+</td>
+<td>
+8c
+</td>
+</tr>
+<tr>
+<td>
+Buheitel Tim
+</td>
+<td>
+9a
+</td>
+</tr>
+<tr>
+<td>
+D&ouml;rlfer Luca
+</td>
+<td>
+9c
+</td>
+</tr><tr>
+<td>
+G&ouml;sswein Pia
+</td>
+<td>
+9c
+</td>
+</tr><tr>
+<td>
+Meier Fabian
+</td>
+<td>
+10b
+</td>
+</tr><tr>
+<td>
+Meyer Fabian
+</td>
+<td>
+9a
+</td>
+</tr><tr>
+<td>
+Meyer Thomas
+</td>
+<td>
+9b
+</td>
+</tr><tr>
+<td>
+Seidel Daniel
+</td>
+<td>
+10a
+</td>
+</tr><tr>
+<td>
+Winter Delia
+</td>
+<td>
+9c
+</td>
+</tr><tr>
+<td>
+Zeberl Andreas
+</td>
+<td>
+9a
+</td>
+</tr>
+<tr>
+<td>
+Englert Ulrike
+</td>
+<td>
+Teacher/Lehrer
+</td>
+</tr>
+</table>
+<div>
+<div class="bodyhead">
+Our Video/Unser Video:
+</div>
+<div style="box-shadow:2px 2px 0px rgba(0,0,0,0.4);position:relative;height:0;padding-bottom:56.25%"><iframe src="https://www.youtube.com/embed/0Ifrc4cre0s?ecver=2" width="640" height="360" frameborder="0" allow="autoplay; encrypted-media" style="position:absolute;width:100%;height:100%;left:0" allowfullscreen></iframe></div>
+<div class="bodyhead">
+Important Links:
+</div>
+<div class="body">
+<div class="link" onclick="loadUrl('http://wgg-neumarkt.de')">
+<div class="tooltip">
+<img  class="icon" src="http://neubit.wgg-neumarkt.de/wgg.png"></img>School Homepage
+<span class="tooltiptext"> Go to the School Homepage</span>
+</div>
+</div>
+<div class="link" onclick="loadUrl('https://www.arduino.cc/')">
+<div class="tooltip">
+<img  class="icon" src="https://heise.cloudimg.io/width/236/q90.png-lossy-90.webp-lossy-90.foil1/_www-heise-de_/imgs/71/1/5/5/7/9/7/7/Arduino-Dossier-c13fa300ac9796a7.jpg"></img>
+Arduino Webpage
+<span class="tooltiptext"> Go to the Website of Arduino</span>
+</div>
+</div>
+<div class="link" onclick="loadUrl('https://www.raspberrypi.org/')">
+<div class="tooltip">
+<img  class="icon" src="https://www.raspberrypi.org/app/uploads/2011/10/Raspi-PGB001.png"></img>
+Rasperry Pi Webpage
+<span class="tooltiptext"> Go to the Website of Rasperry Pi</span>
+</div>
+</div>
+<div class="link" onclick="loadUrl('http://www.vision-ing21.de/')">
+<div class="tooltip">
+<img  class="icon" src="http://www.gymnasium-weissenhorn.de/homepage2/images/Bilder/Visioning/VisionING_21_Logo_halb_Transparent.png"></img>
+Competition
+<span class="tooltiptext"> Go to the Website of the Competition we are in</span>
+</div>
+</div>
+</div>
+</div>
+<div class="impressum">
+<div class="tooltip">
+Impressum
+<span class="tooltiptext">
+MintEx
+</span>
+</div>
+<script type="text/javascript">
+var temps = new Array(13);
+var percsh = new Array(13);
+var speeds = new Array(13);
+var press = new Array(13);
+var tempBox = document.getElementById("tempBox");
+var humidBox = document.getElementById("humidBox");
+var speedBox = document.getElementById("speedBox");
+var pressBox = document.getElementById("pressBox");
+var rainBox = document.getElementById("rainBox");
+var weatherBox = document.getElementById("weatherBox");
+var dataError = "An Error ocurred while reading out the data";
+var str = "23:34:12:45:2:89 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110"
+/*
+var strSemi = new Array(13);
+
+var strComp = new Array(13);
+*/
+
+
+function strSplit(strIn,splitAt,ArrayIn) {
+	var strIndex = 0;
+	for (var i = 0; i < strIn.length; i++) {
+		if (strIn.charAt(i) == splitAt) {
+			strIndex++;
+		} else {
+			ArrayIn[strIndex]+= strIn.charAt(i);
+		}
+	}
+}
+/*
+strSplit(str,";",strSemi);
+
+for (var i = 0; i < 13; i++) {
+	strSplit(strSemi[i],":",strComp[i]);
+}
+
+for (var i = 0; i < 13; i++) {
+	for (var j = 0; j < 6; j++) {
+		alert(strComp[i][j]);
+	}
+}	
+
+for (var i = 0; i < 13; i++) {
+	temps[i] = parseInt(strComp[i][2],10);
+	percsh[i] = parseInt(strComp[i][1],10);
+	speeds[i] = parseInt(strComp[i][3],10);
+	press[i] = parseInt(strComp[i][0],10);
+}
+
+tempBox.innerHTML = strComp[0][2];
+humidBox.innerHTML = strComp[0][1];
+speedBox.innerHTML = strComp[0][3];
+pressBox.innerHTML = strComp[0][0];
+if (strComp[0][5] == "1") {
+	rainBox.innerHTML = "Yes / Ja";
+} else if (strComp[0][5] == "0") {
+	rainBox.innerHTML = "No / Nein";
+} else {
+	rainBox.innerHTML = dataError;
+}
+if (strComp[0][4] == "0") {
+	rainBox.innerHTML = "Sunny / Sonnig";
+} else if (strComp[0][4] == "1") {
+	rainBox.innerHTML = "cloudy / Wölkig";
+} else if (strComp[0][4] == "2") {
+	rainBox.innerHTML = "rainy / Regnerisch";
+} else if (strComp[0][4] == "3") {
+	rainBox.innerHTML = "stormy / Stürmisch";
+} else {
+	rainBox.innerHTML = dataError;
+}
+*/
+function loadUrl(newLocation)
+{
+window.location = newLocation;
+return false;
+}
+
+/*url="file:///H:/Robotik/test.txt";
+
+var request = new XMLHttpRequest();
+request.onreadystatechange = function() {
+    if (request.readyState === 4) {
+        if (request.status === 200) {
+            document.body.className = 'ok';
+            console.log(request.responseText);
+        } else if (!isValid(this.response) && this.status == 0) {
+            document.body.className = 'error offline';
+            console.log("The computer appears to be offline.");                
+        } else {
+            document.body.className = 'error';
+        }
+    }
+};
+request.open("GET", url , true);
+request.send(null);
+*/
+
+
+
+//httpGet("test.txt");
+httpGet("dataFile.txt");
+
+
+
+function httpGet(theUrl)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+
+    	//das hier wird sozusagen ausgeführt wenn man die Datei zurückbekommt
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)   {     	
+        	//console.log("here comes the response text: " + xmlHttp.responseText);
+			
+			var strSemi = new Array(13);
+
+			var strComp = new Array(13);
+
+			for (var i = 0; i < 13; i++) {
+				strComp[i] = new Array(6);
+				strSemi[i] = "";
+				for (var j = 0; j < 6; j++) {
+					strComp[i][j] = "";
+				}
+			}
+			
+			strSplit(xmlHttp.responseText," ",strSemi);
+			
+
+			for (var i = 0; i < 13; i++) {
+				strSplit(strSemi[i],":",strComp[i]);
+			}
+
+			for (var i = 0; i < 13; i++) {
+				for (var j = 0; j < 6; j++) {
+					console.log(strComp[i][j]);
+				}
+			}	
+
+			for (var i = 0; i < 13; i++) {
+				temps[i] = parseInt(strComp[i][2],10);
+				console.log("hi");
+				percsh[i] = parseInt(strComp[i][1],10); 
+				speeds[i] = parseInt(strComp[i][3],10);
+				press[i] = 1013 - parseInt(strComp[i][0],10);
+			}
+
+			tempBox.innerHTML = strComp[0][2] + "°C";
+			humidBox.innerHTML = strComp[0][1] + "%";
+			speedBox.innerHTML = strComp[0][3] + "km/h";
+			pressBox.innerHTML = (parseInt(strComp[0][0]) - 1013, 10) + "hPa higher/lower than the standard";
+			if (strComp[0][5] == "1.0") {
+				rainBox.innerHTML = "Yes / Ja";
+			} else if (strComp[0][5] == "0.0") {
+				rainBox.innerHTML = "No / Nein";
+			} else {
+				rainBox.innerHTML = dataError;
+			}
+			if (strComp[0][4] == "0.0") {
+				weatherBox.innerHTML = "Sunny / Sonnig";
+			} else if (strComp[0][4] == "1.0") {
+				weatherBox.innerHTML = "cloudy / Wölkig";
+			} else if (strComp[0][4] == "2.0") {
+				weatherBox.innerHTML = "rainy / Regnerisch";
+			} else if (strComp[0][4] == "3.0") {
+				weatherBox.innerHTML = "stormy / Stürmisch";
+			} else {
+				weatherBox.innerHTML = dataError;
+			}
+			
+			initDiags();
+			
+		}
+
+    }
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.send();    
+}
+
+function initDiags() {
+//Temperature/Temperatur
+var c = document.getElementById('diagram_temperature');
+var ctx = c.getContext("2d");
+var canvasWidth = 800;
+var canvasHeight = 400;
+c.setAttribute('width', canvasWidth);
+c.setAttribute('height', canvasHeight);
+var graphGridSize = 20;
+var graphGridX = (canvasWidth / graphGridSize).toFixed();
+ctx.fillStyle="rgb(255, 225, 173)";
+ctx.fillRect(0,0,800,400);
+for(var i = 0; i < graphGridX; i ++){
+	ctx.moveTo(canvasWidth, graphGridSize*i);
+	ctx.lineTo(0, graphGridSize*i);
+}
+ctx.strokeStyle = "black";
+ctx.stroke();
+ctx.strokeStyle="grey";
+var drawPadding = 100;
+
+for (var i = 0; i < temps.length; i++) {
+	var drawHeight = 400-(temps[i]*8);
+	ctx.strokeRect(drawPadding-1, drawHeight-1, 42, 400);
+	drawPadding += 52;
+}
+drawPadding=100;
+ctx.stroke();
+ctx.fillStyle="rgb(224, 155, 87)";
+for (var i = 0; i < temps.length; i++) {
+	var drawHeight = 400-(temps[i]*8);
+	ctx.fillRect(drawPadding, drawHeight, 20, 400);
+	ctx.fillStyle="rgb(198, 126, 55)";
+	ctx.fillRect(drawPadding+20, drawHeight, 20, 400);
+	ctx.fillStyle="rgb(224, 155, 87)";
+	drawPadding += 52;
+}
+ctx.fillStyle="black";
+ctx.font = "15px Arial";
+ctx.fillText("Temperature/Temperatur", 4, 14);
+ctx.fillStyle="red";
+ctx.fillText("5°C", 4, 365+9);
+ctx.fillText("10°C", 4, 325+9);
+ctx.fillText("15°C", 4, 285+9);
+ctx.fillText("20°C", 4, 245+9);
+ctx.fillText("25°C", 4, 205+9);
+ctx.fillText("30°C", 4, 165+9);
+ctx.fillText("35°C", 4, 125+9);
+ctx.fillText("40°C", 4, 85+9);
+ctx.fillText("45°C", 4, 45+9);
+ctx.fillStyle="black";
+//Percs
+var c = document.getElementById('diagram_percs');
+var ctx = c.getContext("2d");
+var canvasWidth = 800;
+var canvasHeight = 400;
+c.setAttribute('width', canvasWidth);
+c.setAttribute('height', canvasHeight);
+var graphGridSize = 20;
+var graphGridX = (canvasWidth / graphGridSize).toFixed();
+ctx.fillStyle="rgb(255, 225, 173)";
+ctx.fillRect(0,0,800,400);
+for(var i = 0; i < graphGridX; i ++){
+	ctx.moveTo(canvasWidth, graphGridSize*i);
+	ctx.lineTo(0, graphGridSize*i);
+}
+ctx.strokeStyle = "black";
+ctx.fillStyle="rgb(61, 132, 247)"; // blau
+ctx.fillRect(80, 4, 10, 10);
+ctx.strokeRect(80, 4, 10, 10);
+ctx.stroke();
+var drawPadding = 100;
+
+var shortestArr;
+shortestArr = percsh.length
+
+for (var i = 0; i < shortestArr; i++) {
+	var drawHeightHumi = 400-(400*(percsh[i]/100));
+	ctx.fillStyle="rgb(61, 132, 247)"; // blau
+	ctx.fillRect(drawPadding, drawHeightHumi, 20, 400);
+	ctx.fillStyle="rgb(38, 97, 193)"; // dunkelblau
+	ctx.fillRect(drawPadding+20, drawHeightHumi, 20, 400);
+	drawPadding += 52;
+}
+ctx.fillStyle="black";
+ctx.font = "15px Arial";
+ctx.fillText("Humidity", 4, 14);
+ctx.fillStyle="red";
+ctx.fillText("10%", 4, 365+9);
+ctx.fillText("20%", 4, 325+9);
+ctx.fillText("30%", 4, 285+9);
+ctx.fillText("40%", 4, 245+9);
+ctx.fillText("50%", 4, 205+9);
+ctx.fillText("60%", 4, 165+9);
+ctx.fillText("70%", 4, 125+9);
+ctx.fillText("80%", 4, 85+9);
+ctx.fillText("90%", 4, 45+9);
+ctx.fillStyle="black";
+
+//windspeed
+
+var c = document.getElementById('diagram_windspeed');
+var ctx = c.getContext("2d");
+var unit = "km/h";
+var canvasWidth = 800;
+var canvasHeight = 400;
+c.setAttribute('width', canvasWidth);
+c.setAttribute('height', canvasHeight);
+var graphGridSize = 20;
+var graphGridX = (canvasWidth / graphGridSize).toFixed();
+ctx.fillStyle="rgb(255, 225, 173)";
+ctx.fillRect(0,0,800,400);
+ctx.strokeStyle = "black";
+for(var i = 0; i < graphGridX; i ++){
+	ctx.moveTo(canvasWidth, graphGridSize*i);
+	ctx.lineTo(0, graphGridSize*i);
+}
+ctx.stroke();
+ctx.strokeStyle="grey";
+var drawPadding = 100;
+
+ctx.fillStyle="rgb(220, 220, 255)";
+for (var i = 0; i < speeds.length; i++) {
+	var drawHeight = 400-(speeds[i]*4);
+	ctx.strokeRect(drawPadding-1, drawHeight-1, 42, 400);
+	drawPadding += 52;
+}
+ctx.stroke();
+drawPadding = 100;
+ctx.fillStyle="rgb(220, 220, 255)";
+for (var i = 0; i < speeds.length; i++) {
+	var drawHeight = 400-(speeds[i]*4);
+	ctx.fillRect(drawPadding, drawHeight, 20, 400);
+	ctx.fillStyle="rgb(200, 200, 255)"
+	ctx.fillRect(drawPadding+20, drawHeight, 20, 400);
+	ctx.fillStyle="rgb(220, 220, 255)"
+	drawPadding += 52;
+}
+ctx.fillStyle="black";
+ctx.font = "15px Arial";
+ctx.fillText("Windspeed", 4, 14);
+ctx.fillStyle="red";
+var distance = 90;
+var textheight = 45+9;
+for (var i = 0; i < 9; i++) {
+	ctx.fillText(distance+unit,4,textheight);
+	distance -= 10;
+	textheight += 40;
+}
+ctx.fillStyle="black";
+
+//airpressure
+
+var c = document.getElementById('diagram_airpressure');
+var ctx = c.getContext("2d");
+var unit = "hPa";
+var canvasWidth = 800;
+var canvasHeight = 400;
+c.setAttribute('width', canvasWidth);
+c.setAttribute('height', canvasHeight);
+var graphGridSize = 20;
+var graphGridX = (canvasWidth / graphGridSize).toFixed();
+ctx.fillStyle="rgb(255, 225, 173)";
+ctx.fillRect(0,0,800,400);
+ctx.strokeStyle = "black";
+for(var i = 0; i < graphGridX; i ++){
+	ctx.moveTo(canvasWidth, graphGridSize*i);
+	ctx.lineTo(0, graphGridSize*i);
+}
+ctx.stroke();
+var drawPadding = 100;
+
+ctx.fillStyle="rgb(255, 150, 150)";
+ctx.strokeStyle="grey";
+for (var i = 0; i < press.length; i++) {
+	if (press[i] > 0) {
+		var drawHeight = 200-(press[i]*4);
+		ctx.strokeRect(drawPadding-1,drawHeight-1,42,201-drawHeight);
+		drawPadding += 52;
+	} else if (press[i] < 0) {
+		var drawHeight = 200-(200+(press[i]*4));
+		ctx.strokeRect(drawPadding-1,199,42,drawHeight+1);
+		drawPadding += 52;
+	} else {
+		ctx.strokeRect(drawPadding,198,42,4);
+		drawPadding += 52;
+	}
+}
+drawPadding=100;
+for (var i = 0; i < press.length; i++) {
+	if (press[i] > 0) {
+		var drawHeight = 200-(press[i]*4);
+		ctx.fillRect(drawPadding, drawHeight, 20, 200-drawHeight);
+		ctx.fillStyle="rgb(255, 130, 130)";
+		ctx.fillRect(drawPadding+20, drawHeight, 20, 200-drawHeight);
+		ctx.fillStyle="rgb(255, 150, 150)";
+		
+		drawPadding += 52;
+	} else if (press[i] < 0) {
+		var drawHeight = 200-(200+(press[i]*4));
+		ctx.fillRect(drawPadding, 200, 20, drawHeight);
+		ctx.fillStyle="rgb(255, 130, 130)";
+		ctx.fillRect(drawPadding+20, 200, 20, drawHeight);
+		ctx.fillStyle="rgb(255, 150, 150)";
+		drawPadding += 52;
+	} else {
+		ctx.fillRect(drawPadding, 199, 20, 2);
+		ctx.fillStyle="rgb(255, 130, 130)";
+		ctx.fillRect(drawPadding+20, 199, 20, 2);
+		ctx.fillStyle="rgb(255, 150, 150)";
+		drawPadding += 52;
+	}
+}
+
+
+ctx.fillStyle="black";
+ctx.font = "15px Arial";
+ctx.fillText("Air-Pressure (how much higher/lower than normal)", 4, 14);
+ctx.fillStyle="red";
+var distance = 40;
+var textheight = 45+9;
+for (var i = 0; i < 9; i++) {
+	ctx.fillText(distance+unit,4,textheight);
+	distance -= 10;
+	textheight += 40;
+}
+ctx.fillStyle="black";
+}
+
+
+</script>
+</body>
 </html>

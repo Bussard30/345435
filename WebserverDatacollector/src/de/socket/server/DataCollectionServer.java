@@ -81,10 +81,9 @@ public class DataCollectionServer {
 //		}
 	}
 
-	public String convertToStorageFormat(float[] pureData) {
-//		return "AP:" + pureData[0] + ":HUM:" + pureData[1] + ":TEMP:" + pureData[2] + ":SPEED:" + pureData[3] + ":WTR:" + pureData[4] + ":RGN:" + pureData[5];
-		return pureData[0] + ":" + pureData[1] + ":" + pureData[2] + ":" + pureData[3] + ":" + pureData[4] + ":" + pureData[5];
-	}	
+//	public String convertToStorageFormat(float[] pureData) {
+//		return pureData[0] + ":" + pureData[1] + ":" + pureData[2] + ":" + pureData[3] + ":" + pureData[4] + ":" + pureData[5];
+//	}
 
 //	public static final File dataStoreDir = new File("arduinoDatenWebserver/");
 	public static final File dataStoreDir = new File("H:/MintExWebserver/");
