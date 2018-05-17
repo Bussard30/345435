@@ -18,10 +18,10 @@ import java.util.Date;
 
 public class BrowserSenderServer {
 
-	public static final int PORT_BROWSER_CON = 1234;
+	public static final int PORT_BROWSER_CON = 80;
 
-//	private String fileDir = "H:/Programmieren/Javascript/GET request testing/";
-	private String fileDir = "files/";
+	private String fileDir = "H:/MintExWebserver/";
+//	private String fileDir = "files/";
 
 	public BrowserSenderServer() {
 		start();
