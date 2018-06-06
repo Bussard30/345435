@@ -86,7 +86,7 @@ public class DataCollectionServer {
 //	}
 
 //	public static final File dataStoreDir = new File("arduinoDatenWebserver/");
-	public static final File dataStoreDir = new File("H:/MintExWebserver/");
+	public static final File dataStoreDir = new File("H:/MintExWebserver/data/");
 	private void storeData(String inputLine) {
 		dataStoreDir.mkdirs();
 		File dataFile = new File(dataStoreDir + "/data_" + Logger.getCurrentTime("yyyy_MM_dd") + ".txt");
@@ -99,7 +99,7 @@ public class DataCollectionServer {
 
 			PrintWriter writer = new PrintWriter(new FileWriter(dataFile, true));
 
-			writer.println("[" + Logger.getCurrentTime() + "]:" + inputLine + "");
+			writer.println("[" + Logger.getCurrentTime() + "]:'" + inputLine + "'");
 			writer.flush();
 
 			writer.close();

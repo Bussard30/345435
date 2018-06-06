@@ -29,7 +29,7 @@ public class BrowserSenderServer {
 
 	public void start() {
 		
-		getLastDataSets(4);
+		//getLastDataSets(4);
 		
 		(new Thread() {
 			public void run() {
@@ -159,7 +159,7 @@ public class BrowserSenderServer {
             return "text/plain";
 	}
 	
-	private File dataExportFile = new File(fileDir + "dataExportFile.txt");
+	private File dataExportFile = new File(fileDir + "dataFile.txt");
 	private File createDataFileIfDoesntExist() {
 		//TODO only create a new file, if data was updated!
 		try {
@@ -212,12 +212,12 @@ public class BrowserSenderServer {
 				//put all dataSets from the file into a ArrayList
 				if(filesTried >= files.length)
 					break;
-				reader = new BufferedReader(new FileReader(files[filesTried]));				
+				reader = new BufferedReader(new FileReader(files[filesTried]));
 				
 				dataSetsFile = new ArrayList<String>();				
 				String line;
 				while((line = reader.readLine()) != null) 
-					dataSetsFile.add(line.split("'")[1]);				
+					dataSetsFile.add(line.split("'")[1]);
 				
 				//loop through dataSet lines and add them to the dataSets Array
 				for(int i = dataSetsFile.size()-1; i >= 0; i--) {
