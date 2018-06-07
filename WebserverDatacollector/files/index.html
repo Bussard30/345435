@@ -8,7 +8,7 @@ body {
 	font-family: Arial, serif;
 	font-size: 20pt;
 	text-align: center;
-	background: rgba(10,10,130,1);
+	background: black;
 	color: black;
 	letter-spacing: -1px;
 	background-attachment: fixed;
@@ -73,7 +73,7 @@ body {
 	width: 70%;
 	margin-right:auto;
 	margin-left:auto;
-	background-color: rgb(80,80,220);
+	background-color: rgba(200,130,10,1);
 	color:white;
 	margin-top: 5%;
 	cursor: text;
@@ -109,31 +109,57 @@ canvas {
 	height: auto;
 	padding: 20px;
 	font-size: 26pt;
-	box-shadow: 0px 0px 5px black;
+	box-shadow: 0px 0px 5px rgba(200,230,10,1);
+	border-radius: 7px 40px 7px 40px;
 }
 
-.body {
-	background-color: rgba(0,102,153,0.6);
+.bodyend {
+	background-color: rgba(200,130,10,1);
 	margin-left: auto;
 	margin-right: auto;
 	padding: 3px;
 	width: 80%;
 	text-align: center;
 	font-size: 16pt;
-	border-left: 2px solid rgba(0, 102, 180, 0.8);
-	border-right: 2px solid rgba(0, 102, 180, 0.8);
-	border-bottom: 2px solid rgba(0, 102, 180, 0.8);
+	border-left: 2px solid rgba(200,230,10,1);
+	border-right: 2px solid rgba(200,230,10,1);
+	border-bottom: 2px solid rgba(200,230,10,1);
+	border-radius: 0px 0px 15px 15px;
+	
+}
+
+.body {
+	background-color: rgba(200,130,10,1);
+	margin-left: auto;
+	margin-right: auto;
+	padding: 3px;
+	width: 80%;
+	text-align: center;
+	font-size: 16pt;
+	border-left: 2px solid rgba(200,230,10,1);
+	border-right: 2px solid rgba(200,230,10,1);
+	border-bottom: 2px solid rgba(200,230,10,1);
+	
 }
 
 .bodyhead {
-	background-color: rgba(0,102,200,0.6);
+	background: linear-gradient(rgba(200,170,10,1),rgba(200,150,10,1));
+	border-radius: 2px 25px 2px 25px;
 	margin-top: 50px;
 	margin-left: auto;
 	margin-right: auto;
 	width: 85%;
 	padding: 3px;
 	font-size: 20pt;
-	border: 2px solid rgba(0, 102, 180, 0.8);
+	border: 2px solid rgba(200,230,10,1);
+	text-shadow: 0px 0px 3px black;
+	color: white;
+}
+
+.addInfo {
+	font-size: 13pt;
+	color:black;
+	text-shadow:none;
 }
 
 .linkbox {
@@ -151,26 +177,34 @@ canvas {
 
 .link{
 	border: 1px solid black;
-	border-radius: 5px;
-	background: linear-gradient(white,rgb(200,200,200));
+	border-radius: 15px;
+	background: linear-gradient(rgba(210,210,20,1),rgba(210,120,20,1));
 	margin-left:auto;
 	width:50%;
 	margin-right:auto;
 	font-size: 30pt;
-	color: rgb(110,110,110);
+	color: white;
 	height: auto;
-	transition: transform 0.1s ease-in;
+	transition: transform 0.2s ease-in;
 	margin-top:10px;
 	margin-bottom:10px;
 	font-family: impact;
-	text-shadow: 1px 1px 0px black;
+	text-shadow: 2px 2px 0px black;
 	cursor: pointer;
-	letter-spacing: 10px;
+	letter-spacing: 15px;
 	padding: 5px;
+	box-shadow: 0px 0px 5px black;
 }
 
 .link:hover {
-	transform: scale(1.05,1.05);
+	transform: scale(1.08,1.03);
+	animation: linkHover 0.4s linear 0s 1 normal;
+	box-shadow: 0px 0px 10px black;
+}
+
+@keyframes linkHover {
+	0% {box-shadow: 0px 0px 5px black;}
+	100% {box-shadow: 0px 0px 10px black;}
 }
 
 a:link {
@@ -226,7 +260,7 @@ MINTeX 2017/2018 Showing our Weather / Unser Wetter zeigen
 <div class="bodyhead">
 This-Hour-Data/Daten der Stunde:
 </div>
-<table class="body">
+<table class="bodyend">
 <tr>
 <td>
 Temperature/Temperatur:
@@ -283,6 +317,7 @@ Weather
 
 <div class="bodyhead">
 Diagrams/Diagramme:
+<div class="addInfo">der letzen 3 Stunden</div>
 </div>
 <div class="body">
 <div>
@@ -301,7 +336,7 @@ Diagrams/Diagramme:
 </div>
 </div>
 
-<div class="body">
+<div class="bodyend">
 <div>
 <canvas id="diagram_airpressure" style="border-radius:5px;margin-left:auto;maring-right:auto;width:75%;border:1px solid #000000;">
 </div>
@@ -309,7 +344,7 @@ Diagrams/Diagramme:
 <div class="bodyhead">
 Our Info/Infos &Uuml;ber uns:
 </div>
-<table class="body">
+<table class="bodyend">
 <tr>
 <td>
 Lastname/Firstname; Vorname/Nachname:
@@ -378,6 +413,13 @@ Seidel Daniel
 </td>
 </tr><tr>
 <td>
+Senger Jonas
+</td>
+<td>
+10b
+</td>
+</tr><tr>
+<td>
 Winter Delia
 </td>
 <td>
@@ -406,9 +448,9 @@ Our Video/Unser Video:
 </div>
 <div style="box-shadow:2px 2px 0px rgba(0,0,0,0.4);position:relative;height:0;padding-bottom:56.25%"><iframe src="https://www.youtube.com/embed/0Ifrc4cre0s?ecver=2" width="640" height="360" frameborder="0" allow="autoplay; encrypted-media" style="position:absolute;width:100%;height:100%;left:0" allowfullscreen></iframe></div>
 <div class="bodyhead">
-Important Links:
+Important Links	 / wichtige Links:
 </div>
-<div class="body">
+<div class="bodyend">
 <div class="link" onclick="loadUrl('http://wgg-neumarkt.de')">
 <div class="tooltip">
 <img  class="icon" src="http://neubit.wgg-neumarkt.de/wgg.png"></img>School Homepage
@@ -457,7 +499,7 @@ var pressBox = document.getElementById("pressBox");
 var rainBox = document.getElementById("rainBox");
 var weatherBox = document.getElementById("weatherBox");
 var dataError = "An Error ocurred while reading out the data";
-var str = "23:34:12:45:2:89 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110"
+var str = "23:34:12:45:2:89 1:10:14:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110 1:10:11:100:101:110"
 /*
 var strSemi = new Array(13);
 
@@ -544,12 +586,7 @@ request.open("GET", url , true);
 request.send(null);
 */
 
-
-
-//httpGet("test.txt");
 httpGet("dataFile.txt");
-
-
 
 function httpGet(theUrl)
 {
@@ -573,7 +610,7 @@ function httpGet(theUrl)
 			}
 			
 			strSplit(xmlHttp.responseText," ",strSemi);
-			
+			//strSplit(str," ",strSemi);
 
 			for (var i = 0; i < 13; i++) {
 				strSplit(strSemi[i],":",strComp[i]);
@@ -588,30 +625,30 @@ function httpGet(theUrl)
 			for (var i = 0; i < 13; i++) {
 				temps[i] = parseInt(strComp[i][2],10);
 				console.log("hi");
-				percsh[i] = parseInt(strComp[i][1],10); 
+				percsh[i] = parseInt(strComp[i][1],10);
 				speeds[i] = parseInt(strComp[i][3],10);
-				press[i] = 1013 - parseInt(strComp[i][0],10);
+				press[i] = parseInt(strComp[i][0],10)-1013;
 			}
 
 			tempBox.innerHTML = strComp[0][2] + "°C";
 			humidBox.innerHTML = strComp[0][1] + "%";
 			speedBox.innerHTML = strComp[0][3] + "km/h";
-			pressBox.innerHTML = (parseInt(strComp[0][0]) - 1013, 10) + "hPa higher/lower than the standard";
-			if (strComp[0][5] == "1.0") {
+			pressBox.innerHTML = strComp[0][0] + "hPa";
+			if (strComp[0][5] == "0.0") {
 				rainBox.innerHTML = "Yes / Ja";
-			} else if (strComp[0][5] == "0.0") {
+			} else if (strComp[0][5] == "1.0") {
 				rainBox.innerHTML = "No / Nein";
 			} else {
 				rainBox.innerHTML = dataError;
 			}
 			if (strComp[0][4] == "0.0") {
-				weatherBox.innerHTML = "Sunny / Sonnig";
+				weatherBox.innerHTML = "night / Nacht";
 			} else if (strComp[0][4] == "1.0") {
-				weatherBox.innerHTML = "cloudy / Wölkig";
+				weatherBox.innerHTML = "sunrise / Dämmerung";
 			} else if (strComp[0][4] == "2.0") {
-				weatherBox.innerHTML = "rainy / Regnerisch";
+				weatherBox.innerHTML = "cloudy / Wölkig";
 			} else if (strComp[0][4] == "3.0") {
-				weatherBox.innerHTML = "stormy / Stürmisch";
+				weatherBox.innerHTML = "Sunny / Sonnig";
 			} else {
 				weatherBox.innerHTML = dataError;
 			}

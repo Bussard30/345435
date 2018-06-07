@@ -176,6 +176,7 @@ public class BrowserSenderServer {
 			//write them into the export file
 //			for(String dataSet : dataSets)
 			writer.println(dataSets);
+			System.out.println("Datensets :'" + dataSets + "'");
 			
 			
 			writer.close();
@@ -217,7 +218,7 @@ public class BrowserSenderServer {
 				dataSetsFile = new ArrayList<String>();				
 				String line;
 				while((line = reader.readLine()) != null) 
-					dataSetsFile.add(line.split("'")[1]);				
+					dataSetsFile.add(line.split("'")[1]);
 				
 				//loop through dataSet lines and add them to the dataSets Array
 				for(int i = dataSetsFile.size()-1; i >= 0; i--) {
