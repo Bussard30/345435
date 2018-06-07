@@ -786,7 +786,7 @@ var drawPadding = 100;
 ctx.fillStyle="rgb(220, 220, 255)";
 for (var i = 0; i < speeds.length; i++) {
 	var drawHeight = 400-(speeds[i]*4);
-	ctx.strokeRect(drawPadding-1, drawHeight-1, 42, 400);
+	ctx.strokeRect(drawPadding-1, drawHeight-1, 42, 400+(speeds[i]*4));
 	drawPadding += 52;
 }
 ctx.stroke();
@@ -794,9 +794,9 @@ drawPadding = 100;
 ctx.fillStyle="rgb(220, 220, 255)";
 for (var i = 0; i < speeds.length; i++) {
 	var drawHeight = 400-(speeds[i]*4);
-	ctx.fillRect(drawPadding, drawHeight, 20, 400);
+	ctx.fillRect(drawPadding, drawHeight, 20, 400+(speeds[i]*4));
 	ctx.fillStyle="rgb(200, 200, 255)"
-	ctx.fillRect(drawPadding+20, drawHeight, 20, 400);
+	ctx.fillRect(drawPadding+20, drawHeight, 20, 400+(speeds[i]*4));
 	ctx.fillStyle="rgb(220, 220, 255)"
 	drawPadding += 52;
 }

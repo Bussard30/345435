@@ -213,7 +213,7 @@ public class BrowserSenderServer {
 				//put all dataSets from the file into a ArrayList
 				if(filesTried >= files.length)
 					break;
-				reader = new BufferedReader(new FileReader(files[filesTried]));				
+				reader = new BufferedReader(new FileReader(files[files.length - 1 - filesTried]));				
 				
 				dataSetsFile = new ArrayList<String>();				
 				String line;
