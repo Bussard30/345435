@@ -91,7 +91,8 @@ public class DataCollectionServer {
 //		return pureData[0] + ":" + pureData[1] + ":" + pureData[2] + ":" + pureData[3] + ":" + pureData[4] + ":" + pureData[5];
 //	}
 
-	public static final File dataStoreDir = new File("arduinoDatenWebserver/");
+//	public static final File dataStoreDir = new File("arduinoDatenWebserver/");
+	public static final File dataStoreDir = new File("H:/MintExWebserver/data/");
 	private void storeData(String inputLine) {
 		dataStoreDir.mkdirs();
 		File dataFile = new File(dataStoreDir + "/data_" + Logger.getCurrentTime("yyyy_MM_dd") + ".txt");

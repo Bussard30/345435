@@ -18,10 +18,10 @@ import java.util.Date;
 
 public class BrowserSenderServer {
 
-	public static final int PORT_BROWSER_CON = 1234;
+	public static final int PORT_BROWSER_CON = 80;
 
-//	private String fileDir = "H:/Programmieren/Javascript/GET request testing/";
-	private String fileDir = "files/";
+	private String fileDir = "H:/MintExWebserver/";
+//	private String fileDir = "files/";
 
 	public BrowserSenderServer() {
 		start();
@@ -29,7 +29,7 @@ public class BrowserSenderServer {
 
 	public void start() {
 		
-		getLastDataSets(4);
+		//getLastDataSets(4);
 		
 		(new Thread() {
 			public void run() {
@@ -159,7 +159,7 @@ public class BrowserSenderServer {
             return "text/plain";
 	}
 	
-	private File dataExportFile = new File(fileDir + "dataExportFile.txt");
+	private File dataExportFile = new File(fileDir + "dataFile.txt");
 	private File createDataFileIfDoesntExist() {
 		//TODO only create a new file, if data was updated!
 		try {
@@ -213,7 +213,7 @@ public class BrowserSenderServer {
 				//put all dataSets from the file into a ArrayList
 				if(filesTried >= files.length)
 					break;
-				reader = new BufferedReader(new FileReader(files[files.length - 1 - filesTried]));				
+				reader = new BufferedReader(new FileReader(files[files.length - 1 - filesTried]));
 				
 				dataSetsFile = new ArrayList<String>();				
 				String line;
