@@ -83,7 +83,7 @@ public class BrowserSenderServer {
 				return;
 			}
 			
-			if(requestedFile.contains("..")){
+			if(requestedFile.contains("..")){ 
 				System.out.println("accesDenied, auﬂerdem sind '/'es nicht zugelassen");				
 			}else{
 				
