@@ -18,7 +18,7 @@ import java.util.Date;
 
 public class BrowserSenderServer {
 
-	public static final int PORT_BROWSER_CON = 80;
+	public static final int PORT_BROWSER_CON = 2000;
 
 	private String fileDir = "H:/MintExWebserver/";
 //	private String fileDir = "files/";
@@ -77,6 +77,11 @@ public class BrowserSenderServer {
 		}else{
 			
 			String requestedFile = line.split(" ")[1];
+			
+			if(!(requestedFile.equals("/") || requestedFile.equals("/index.html") || requestedFile.equals("/dataFile.txt"))) {
+				System.out.println("a file other than '/' '/index.html' '/dataFile.txt' was requested. REQUEST REJECTED");
+				return;
+			}
 			
 			if(requestedFile.contains("..")){
 				System.out.println("accesDenied, auﬂerdem sind '/'es nicht zugelassen");				
