@@ -20,7 +20,6 @@ public class DataCollectionServer {
 	}
 
 	public void start() {
-		System.out.println("lal");
 		(new Thread() {
 			public void run() {
 				this.setName("data collector - Thread");
@@ -77,6 +76,13 @@ public class DataCollectionServer {
 //		// process
 //		if(successfull) {
 //			storeData(convertToStorageFormat(values));
+		
+		System.out.println("before: '" + inputLine + "'");
+		//inputLine = inputLine.replace("; ", " ");
+		inputLine = inputLine.replace(";", ":");
+		inputLine = inputLine.substring(0, inputLine.length()-1);
+		System.out.println("after: '" + inputLine + "'");
+		
 		storeData(inputLine);
 //			Logger.storeLog("INFO", "stored data");
 //		}else {
