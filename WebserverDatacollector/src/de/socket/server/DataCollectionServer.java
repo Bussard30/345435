@@ -27,7 +27,7 @@ public class DataCollectionServer {
 					
 					ServerSocket ss = new ServerSocket(PORT_INCOMING_DATA);
 					BufferedReader reader;
-					System.out.println("started receiver loop for pi in wetterstation");
+					Logger.log("INFO", "started receiver loop for pi in wetterstation");
 					while (Main.isOnline()) {
 						Socket socket = ss.accept();
 
@@ -77,11 +77,11 @@ public class DataCollectionServer {
 //		if(successfull) {
 //			storeData(convertToStorageFormat(values));
 		
-		System.out.println("before: '" + inputLine + "'");
+		Logger.log("INFO", "before: '" + inputLine + "'");
 		//inputLine = inputLine.replace("; ", " ");
 		inputLine = inputLine.replace(";", ":");
 		inputLine = inputLine.substring(0, inputLine.length()-1);
-		System.out.println("after: '" + inputLine + "'");
+		Logger.log("INFO", "after: '" + inputLine + "'");
 		
 		storeData(inputLine);
 //			Logger.storeLog("INFO", "stored data");
@@ -100,7 +100,7 @@ public class DataCollectionServer {
 
 		try {
 
-			System.out.println("adding data to file: '" + dataFile.getAbsolutePath() + "'");
+			Logger.log("INFO", "adding data to file: '" + dataFile.getAbsolutePath() + "'");
 			// creates file IF FILE DOESNT YET EXIST
 			dataFile.createNewFile();
 

@@ -9,7 +9,7 @@ import java.util.Calendar;
 public class Logger {
 	private static final File logFile = new File("H://arduinoDatenWebserver/log.txt");
 
-	public static void storeLog(String lineHeader, String log) {
+	private static void storeLog(String lineHeader, String log) {
 
 		try {
 			// creates file IF FILE DOESNT YET EXIST
@@ -26,6 +26,7 @@ public class Logger {
 	}
 	
 	public static void log(String lineHeader, String log){
+		storeLog(lineHeader, log);
 		System.out.println("[" + getCurrentDate() + "][" + getCurrentTime() + "] [" + lineHeader + "]: '" + log + "'");
 	}
 	

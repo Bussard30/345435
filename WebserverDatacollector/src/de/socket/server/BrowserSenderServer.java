@@ -45,6 +45,8 @@ public class BrowserSenderServer {
 					Socket connection;
 					OutputStream out;
 					while (true) {
+						try
+						{
 						connection = serverSocket.accept();
 						out = connection.getOutputStream();
 						reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -58,11 +60,18 @@ public class BrowserSenderServer {
 						while((line = reader.readLine()) != null && !line.equals("")){
 							processReceivedLine(line, out);							
 						}
-						
+
 						//close connection
 						connection.close();
+						}
+						catch(Throwable t)
+						{
+							Logger.log("ERROR", t.getMessage());
+							t.printStackTrace();
+						}
 					}
 				} catch (Exception exc) {
+					Logger.log("ERROR", exc.getMessage());
 					exc.printStackTrace();
 				}
 			}
@@ -113,6 +122,7 @@ public class BrowserSenderServer {
 					sendHTTPResponse200(out, guessContentType(requestedFile));
 					sendFile(new FileInputStream(f), out);
 				}catch(Exception e){
+					Logger.log("ERROR", e.getMessage());
 					e.printStackTrace();
 				}
 			}
