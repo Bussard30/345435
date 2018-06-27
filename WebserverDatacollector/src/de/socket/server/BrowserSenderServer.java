@@ -18,7 +18,7 @@ import java.util.Date;
 
 public class BrowserSenderServer {
 
-	public static final int PORT_BROWSER_CON = 2000;
+	public static final int PORT_BROWSER_CON = 2001;
 
 	private String fileDir = "H:/MintExWebserver/";
 //	private String fileDir = "files/";
@@ -38,7 +38,7 @@ public class BrowserSenderServer {
 				ServerSocket serverSocket;
 				try {
 					serverSocket = new ServerSocket(PORT_BROWSER_CON);
-					System.out.println("browser sender server started waiting for connection on port " + PORT_BROWSER_CON);
+					Logger.log("BSS-BOOT", "started Browser Sender Server (BSS). waiting for incoming Connection on port " + PORT_BROWSER_CON);
 					
 					
 					BufferedReader reader;
@@ -47,22 +47,22 @@ public class BrowserSenderServer {
 					while (true) {
 						try
 						{
-						connection = serverSocket.accept();
-						out = connection.getOutputStream();
-						reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-						
-						Logger.newLine();
-						Logger.log("INFO", "Browser has connected: '" + connection.getInetAddress() + ":" + connection.getPort() + "'");
-						
-
-						//process all incoming lines
-						String line;
-						while((line = reader.readLine()) != null && !line.equals("")){
-							processReceivedLine(line, out);							
-						}
-
-						//close connection
-						connection.close();
+							connection = serverSocket.accept();
+							out = connection.getOutputStream();
+							reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+							
+							Logger.newLine();
+							Logger.log("BSS-INFO", "Browser has connected: '" + connection.getInetAddress() + ":" + connection.getPort() + "'");
+							
+	
+							//process all incoming lines
+							String line;
+							while((line = reader.readLine()) != null && !line.equals("")){
+								processReceivedLine(line, out);							
+							}
+	
+							//close connection
+							connection.close();
 						}
 						catch(Throwable t)
 						{
@@ -85,15 +85,17 @@ public class BrowserSenderServer {
 //			System.out.println("received line is not a GET request!");
 		}else{
 			
+			Logger.log("BSS-INFO", "received GET-Request: '" + line + "'");
+			
 			String requestedFile = line.split(" ")[1];
 			
-			if(!(requestedFile.equals("/") || requestedFile.equals("/index.html") || requestedFile.equals("/dataFile.txt"))) {
-				System.out.println("a file other than '/' '/index.html' '/dataFile.txt' was requested. REQUEST REJECTED");
+			if(!(requestedFile.equals("/") || requestedFile.equals("/index.html") || requestedFile.equals("/dataFile.txt") || requestedFile.equals("/javascript.js") || requestedFile.equals("/style.css"))) {
+				Logger.log("WARNING", "a file other than '/' '/index.html' '/dataFile.txt' was requested. REQUEST REJECTED");
 				return;
 			}
 			
 			if(requestedFile.contains("..")){ 
-				System.out.println("accesDenied, auﬂerdem sind '/'es nicht zugelassen");				
+				Logger.log("BSS-WARNING", "accesDenied, '..' not permitted");				
 			}else{
 				
 				if(requestedFile.equals("/"))
@@ -122,7 +124,7 @@ public class BrowserSenderServer {
 					sendHTTPResponse200(out, guessContentType(requestedFile));
 					sendFile(new FileInputStream(f), out);
 				}catch(Exception e){
-					Logger.log("ERROR", e.getMessage());
+					Logger.log("ERROR on sending file", e.getMessage());
 					e.printStackTrace();
 				}
 			}
@@ -170,7 +172,9 @@ public class BrowserSenderServer {
             return "text/html";
         else if (path.endsWith(".js"))
         	return "application/javascript";        
-        else    
+        else if (path.endsWith(".css"))
+        	return "text/css";
+        else
             return "text/plain";
 	}
 	

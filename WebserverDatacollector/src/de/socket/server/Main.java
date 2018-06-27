@@ -8,6 +8,10 @@ public class Main {
 
 	
 	public static void main(String[] args) {
+		
+		Logger.newLine();
+		Logger.newLine();
+		Logger.newLine();
 
 		dataCollServer = new DataCollectionServer();
 		browserSenderServer = new BrowserSenderServer();
@@ -16,10 +20,5 @@ public class Main {
 		
 //		browserSenderServer.loadDataFromFiles(1);
 		
-	}
-	
-	public static boolean isOnline()
-	{
-		return true;
 	}
 }

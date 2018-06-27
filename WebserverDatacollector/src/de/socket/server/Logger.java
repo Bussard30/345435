@@ -7,12 +7,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Logger {
-	private static final File logFile = new File("H://arduinoDatenWebserver/log.txt");
+//	private static final File logFile = new File("H://arduinoDatenWebserver/log.txt");
+	private static final File logFile = new File("src/log.txt");
 
 	private static void storeLog(String lineHeader, String log) {
 
 		try {
 			// creates file IF FILE DOESNT YET EXIST
+			logFile.getParentFile().mkdirs();
 			logFile.createNewFile();
 
 			PrintWriter writer = new PrintWriter(new FileWriter(logFile, true));
@@ -22,6 +24,7 @@ public class Logger {
 
 			writer.close();
 		} catch (Exception exc) {
+			exc.printStackTrace();
 		}
 	}
 	
@@ -44,5 +47,6 @@ public class Logger {
 	
 	public static void newLine() {
 		System.out.println();
+		storeLog("", "");
 	}
 }
