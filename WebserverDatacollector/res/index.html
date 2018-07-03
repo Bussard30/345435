@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html"; charset="ISO-8859-1">
+		<link rel="stylesheet" href="style.css">
+		<title> MINTeX - WGG </title>
+		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+	</head>
+	
+	<body>
+		<div class="head">
+			MINTeX 2017/2018 Unser Wetter
+		</div>
+		<div class="bodyhead">
+			Aktuell:
+		</div>
+		<table class="bodyend">
+			<tr>
+				<td>
+					Temperatur:
+				</td>
+				<td id="tempBox">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Luftfeuchtigkeit:
+				</td>
+				<td id="humidBox">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Windgeschwindigkeit:
+				</td>
+				<td id="speedBox">			
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Luftdruck:
+				</td>
+				<td id="pressBox">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Regen:
+				</td>
+				<td id="rainBox">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Wetter:
+				</td>
+				<td id="weatherBox">
+				</td>
+			</tr>
+		</table>
+		
+		<div class="bodyhead">
+			Diagramme:
+		</div>
+		<div class="body">
+			<div>
+				<canvas id="diagram_temperature" style="border-radius:5px;margin-left:auto;maring-right:auto;width:75%;border:1px solid #000000;">
+			</div>
+		</div>
+		<div class="body">
+			<div>
+				<canvas id="diagram_percs" style="border-radius:5px;margin-left:auto;maring-right:auto;width:75%;border:1px solid #000000;">
+			</div>
+		</div>
+	
+		<div class="body">
+			<div>
+				<canvas id="diagram_windspeed" style="border-radius:5px;margin-left:auto;maring-right:auto;width:75%;border:1px solid #000000;">
+			</div>
+		</div>
+	
+		<div class="bodyend">
+			<div>
+				<canvas id="diagram_airpressure" style="border-radius:5px;margin-left:auto;maring-right:auto;width:75%;border:1px solid #000000;">
+			</div>
+		</div>
+		<div class="bodyhead">
+			Infos über uns:
+		</div>
+		<table class="bodyend">
+			<tr>
+				<td>
+					Vorname/Nachname:
+				</td>
+				<td>
+					Klasse:
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Bayer Jan
+				</td>
+				<td>
+					8c
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Buheitel Tim
+				</td>
+				<td>
+					9a
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Dörlfer Luca
+				</td>
+				<td>
+					9c
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Gösswein Pia
+				</td>
+				<td>
+					9c
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Meier Fabian
+				</td>
+				<td>
+					10b
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Meyer Fabian
+				</td>
+				<td>
+					9a
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Meyer Thomas
+				</td>
+				<td>
+					9b
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Seidel Daniel
+				</td>
+				<td>
+					10a
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Senger Jonas
+				</td>
+				<td>
+					unbekannt
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Winter Delia
+				</td>
+				<td>
+					9c
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Zeberl Andreas
+				</td>
+				<td>
+					9a
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Englert Ulrike
+				</td>
+				<td>
+					Lehrer
+				</td>
+			</tr>
+		</table>
+		<div>
+			<div class="bodyhead">
+				Unser Video:
+			</div>
+			<div style="box-shadow:2px 2px 0px rgba(0,0,0,0.4);position:relative;height:0;padding-bottom:56.25%"><iframe src="https://www.youtube.com/embed/0Ifrc4cre0s?ecver=2" width="640" height="360" frameborder="0" allow="autoplay; encrypted-media" style="position:absolute;width:100%;height:100%;left:0" allowfullscreen></iframe>
+			</div>
+			<div class="bodyhead">
+				wichtige Links:
+			</div>
+			<div class="bodyend">
+				<div class="link" onclick="loadUrl('http://wgg-neumarkt.de')">
+					<div class="tooltip">
+						<img  class="icon" src="http://neubit.wgg-neumarkt.de/wgg.png"></img>Schulwebsite
+						<span class="tooltiptext">Weiterleitung zur Schulseite</span>
+					</div>
+				</div>
+				<div class="link" onclick="loadUrl('https://www.arduino.cc/')">
+					<div class="tooltip">
+						<img  class="icon" src="https://heise.cloudimg.io/width/236/q90.png-lossy-90.webp-lossy-90.foil1/_www-heise-de_/imgs/71/1/5/5/7/9/7/7/Arduino-Dossier-c13fa300ac9796a7.jpg"></img>
+							Arduino Homepage
+						<span class="tooltiptext">Weiterleitung zur Internetseite von Arduino</span>
+					</div>
+				</div>
+				<div class="link" onclick="loadUrl('https://www.raspberrypi.org/')">
+					<div class="tooltip">
+						<img  class="icon" src="https://www.raspberrypi.org/app/uploads/2011/10/Raspi-PGB001.png"></img>
+							Rasperry Pi Homepage
+						<span class="tooltiptext">Weiterleitung zur Internetseite von Rasperry Pi</span>
+					</div>
+				</div>
+				<div class="link" onclick="loadUrl('http://www.vision-ing21.de/')">
+					<div class="tooltip">
+						<img  class="icon" src="http://www.gymnasium-weissenhorn.de/homepage2/images/Bilder/Visioning/VisionING_21_Logo_halb_Transparent.png"></img>
+							Wettbewerb
+						<span class="tooltiptext">Weiterleitung zur Internetseite von VisionING, der Wettbewerb an dem wir teilgenommen haben</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="impressum">
+			<div class="tooltip">
+				Impressum
+				<span class="tooltiptext">
+				MintEx
+			</span>
+		</div>
+		<script src="javascript.js" charset="utf-8"></script>
+	</body>
+</html>

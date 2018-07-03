@@ -20,7 +20,8 @@ public class BrowserSenderServer {
 
 	public static final int PORT_BROWSER_CON = 2001;
 
-	private String fileDir = "H:/MintExWebserver/";
+//	private String fileDir = "H:/MintExWebserver/";
+	private String fileDir = "res/";
 //	private String fileDir = "files/";
 
 	public BrowserSenderServer() {
@@ -89,7 +90,13 @@ public class BrowserSenderServer {
 			
 			String requestedFile = line.split(" ")[1];
 			
-			if(!(requestedFile.equals("/") || requestedFile.equals("/index.html") || requestedFile.equals("/dataFile.txt") || requestedFile.equals("/javascript.js") || requestedFile.equals("/style.css"))) {
+			if(!(
+					requestedFile.equals("/") 
+					|| requestedFile.equals("/index.html") 
+					|| requestedFile.equals("/dataFile.txt") 
+					|| requestedFile.equals("/javascript.js") 
+					|| requestedFile.equals("/style.css")
+				)){
 				Logger.log("WARNING", "a file other than '/' '/index.html' '/dataFile.txt' was requested. REQUEST REJECTED");
 				return;
 			}
