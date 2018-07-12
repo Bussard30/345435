@@ -27,7 +27,8 @@ public class BrowserSenderServer {
 	/**
 	 * Pfad des Ordners der die Website Dateien enthält (=> index.html, javascript.js, etc.)
 	 */
-	public static final String fileDir = "H:/MintExWebserver/";
+//	public static final String fileDir = "H:/MintExWebserver/";
+	public static final String fileDir = "WebserverDatacollector/res/";
 
 	public BrowserSenderServer() {
 		start();
@@ -99,8 +100,9 @@ public class BrowserSenderServer {
 					|| requestedFile.equals("/dataFile.txt") 
 					|| requestedFile.equals("/javascript.js") 
 					|| requestedFile.equals("/style.css")
+					|| requestedFile.equals("/favicon.ico")
 				)){
-				Logger.log("WARNING", "a file other than '/' '/index.html' '/dataFile.txt' 'javascript.js' 'style.css' was requested. REQUEST REJECTED");
+				Logger.log("WARNING", "a file other than '/' '/index.html' '/dataFile.txt' 'javascript.js' 'style.css' 'favicon.ico' was requested. REQUEST REJECTED");
 				return;
 			}		
 			
