@@ -7,8 +7,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Logger {
-//	private static final File logFile = new File("H://arduinoDatenWebserver/log.txt");
-	private static final File logFile = new File("src/log.txt");
+	/**
+	 * Path of Log file
+	 */
+	private static final File logFile = new File(BrowserSenderServer.fileDir + "/log.txt");
 
 	private static void storeLog(String lineHeader, String log) {
 

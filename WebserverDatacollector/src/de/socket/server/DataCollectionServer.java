@@ -17,6 +17,7 @@ public class DataCollectionServer {
 
 	/**
 	 * Pfad des Ordners der die gespeicherten Daten enthält (=> e.g. data_XX_XX_XX.txt)
+	 * Es dürfen keine anderen Dateien als die Daten-Dateien in dem Verzeichnis sein!
 	 */
 	public static final File dataStoreDir = new File("H:/MintExWebserver/data/");
 	
@@ -33,11 +34,11 @@ public class DataCollectionServer {
 				
 					try {
 						
-						ServerSocket ss = new ServerSocket(PORT_INCOMING_DATA);
+						ServerSocket serverSocket = new ServerSocket(PORT_INCOMING_DATA);
 						BufferedReader reader;
 						Logger.log("DCS-BOOT", "waiting for incoming data from Arduino");
 						while (true) {
-							Socket socket = ss.accept();
+							Socket socket = serverSocket.accept();
 	
 							reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 	

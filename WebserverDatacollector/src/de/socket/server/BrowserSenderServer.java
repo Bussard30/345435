@@ -27,7 +27,7 @@ public class BrowserSenderServer {
 	/**
 	 * Pfad des Ordners der die Website Dateien enthält (=> index.html, javascript.js, etc.)
 	 */
-	private String fileDir = "H:/MintExWebserver/";
+	public static final String fileDir = "H:/MintExWebserver/";
 
 	public BrowserSenderServer() {
 		start();
@@ -100,46 +100,35 @@ public class BrowserSenderServer {
 					|| requestedFile.equals("/javascript.js") 
 					|| requestedFile.equals("/style.css")
 				)){
-				Logger.log("WARNING", "a file other than '/' '/index.html' '/dataFile.txt' was requested. REQUEST REJECTED");
+				Logger.log("WARNING", "a file other than '/' '/index.html' '/dataFile.txt' 'javascript.js' 'style.css' was requested. REQUEST REJECTED");
+				return;
+			}		
+			
+				
+			if(requestedFile.equals("/"))
+				requestedFile = "/index.html";
+			 
+			if(requestedFile.equals("/dataFile.txt")) 
+				requestedFile = createDataFileIfDoesntExist().getName();
+			
+			
+			File f = new File(fileDir + requestedFile);
+			
+			if(!f.exists()) {
+				Logger.log("404", "requested file was not found: '" + requestedFile + "'");
+				sendHTTPResponse404(out);
 				return;
 			}
 			
-			if(requestedFile.contains("..")){ 
-				Logger.log("BSS-WARNING", "accesDenied, '..' not permitted");				
-			}else{
-				
-				if(requestedFile.equals("/"))
-					requestedFile = "/index.html";
-//					requestedPath = "/index.html";
-//					requestedPath = "F://MintX/Projekt 17-18/page.html";
-				 
-				if(requestedFile.equals("/dataFile.txt")) 
-					requestedFile = createDataFileIfDoesntExist().getName();
-				
-					
-				
-//				requestedPath =  fileDir + requestedPath.substring(1);
-				
-				File f = new File(fileDir + requestedFile);
-				
-				if(!f.exists()) {
-					Logger.log("404", "requested file was not found: '" + requestedFile + "'");
-					sendHTTPResponse404(out);					
-//					sendFileNotFoundHTTPHeader(out);					
-					return;
-				}
-				
-				try{
-					Logger.log("SENDING", "sending file '" + requestedFile + "'");
-					sendHTTPResponse200(out, guessContentType(requestedFile));
-					sendFile(new FileInputStream(f), out);
-				}catch(Exception e){
-					Logger.log("ERROR on sending file", e.getMessage());
-					e.printStackTrace();
-				}
-			}
-		}
-		
+			try{
+				Logger.log("SENDING", "sending file '" + requestedFile + "'");
+				sendHTTPResponse200(out, guessContentType(requestedFile));
+				sendFile(new FileInputStream(f), out);
+			}catch(Exception e){
+				Logger.log("ERROR on sending file", e.getMessage());
+				e.printStackTrace();
+			}			
+		}		
 	}
 
 	//////
@@ -153,8 +142,6 @@ public class BrowserSenderServer {
 			int bytes; 
 			while((bytes = in.read(buf)) != -1){
 				out.write(buf, 0, bytes);
-//				System.out.write(buf,  0,  bytes);
-//				System.out.println("writing bytes to browser one byte: " + buf[0]);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -203,9 +190,7 @@ public class BrowserSenderServer {
 			String dataSets = getLastDataSets(13);
 			
 			//write them into the export file
-//			for(String dataSet : dataSets)
 			writer.println(dataSets);
-			System.out.println("Datensets :'" + dataSets + "'");
 			
 			
 			writer.close();
@@ -227,14 +212,11 @@ public class BrowserSenderServer {
 			return null;
 		Arrays.sort(files);
 		
-//		for(File f : files)
-//			System.out.println(f.getName());
-		
-		//now get the newest 10 datasets
+		//now get the (13) newest datasets
 		int dataSetsCn = 0;
 		int filesTried = 0;
 		BufferedReader reader;
-		ArrayList<String> dataSetsFile;
+		ArrayList<String> dataSetsFile = null;
 		while(dataSetsCn < amount) {
 			
 			//try a new file
@@ -246,10 +228,11 @@ public class BrowserSenderServer {
 				
 				dataSetsFile = new ArrayList<String>();				
 				String line;
-				while((line = reader.readLine()) != null) 
+				while((line = reader.readLine()) != null) {
 					dataSetsFile.add(line.split("'")[1]);
+				}
 				
-				//loop through dataSet lines and add them to the dataSets Array
+				//reverse loop through dataSet lines and add them to the dataSets String
 				for(int i = dataSetsFile.size()-1; i >= 0; i--) {
 					dataSets += dataSetsFile.get(i) + " ";
 					dataSetsCn++;
