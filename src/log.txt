@@ -512,3 +512,8 @@
 [2018:06:27][21:26:42] [BSS-INFO]: 'Browser has connected: '/0:0:0:0:0:0:0:1:60831''
 [2018:06:27][21:26:42] [BSS-INFO]: 'received GET-Request: 'GET /favicon.ico HTTP/1.1''
 [2018:06:27][21:26:42] [WARNING]: 'a file other than '/' '/index.html' '/dataFile.txt' was requested. REQUEST REJECTED'
+[2018:06:29][15:07:17] []: ''
+[2018:06:29][15:07:17] []: ''
+[2018:06:29][15:07:17] []: ''
+[2018:06:29][15:07:17] [DCS-BOOT]: 'waiting for incoming data from Arduino'
+[2018:06:29][15:07:17] [BSS-BOOT]: 'started Browser Sender Server (BSS). waiting for incoming Connection on port 2001'

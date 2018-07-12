@@ -10,9 +10,14 @@ import java.net.Socket;
 
 public class DataCollectionServer {
 
+	/**
+	 * Port auf dem das Programm Daten vom Arduino enthält
+	 */
 	public static final int PORT_INCOMING_DATA = 7637;
 
-//	public static final File dataStoreDir = new File("arduinoDatenWebserver/");
+	/**
+	 * Pfad des Ordners der die gespeicherten Daten enthält (=> e.g. data_XX_XX_XX.txt)
+	 */
 	public static final File dataStoreDir = new File("H:/MintExWebserver/data/");
 	
 	public DataCollectionServer() {
@@ -58,11 +63,11 @@ public class DataCollectionServer {
 		Logger.log("INFO", "line received: '" + inputLine + "'");
 //		// Reihenfolge: 'start, Luftdruck, Luftfeuchtigkeit, Lufttemperatur, Windgeschwindigkeit(km/h), Wetter, Regenzustand,end' 
 
-		Logger.log("INFO (internal)", "before: '" + inputLine + "'");
+//		Logger.log("INFO (internal)", "before: '" + inputLine + "'");
 		//inputLine = inputLine.replace("; ", " ");
 		inputLine = inputLine.replace(";", ":");
 		inputLine = inputLine.substring(0, inputLine.length()-1);
-		Logger.log("INFO (internal)", "after: '" + inputLine + "'");
+//		Logger.log("INFO (internal)", "after: '" + inputLine + "'");
 		
 		storeData(inputLine);
 	}

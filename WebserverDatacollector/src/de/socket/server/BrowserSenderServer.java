@@ -18,18 +18,21 @@ import java.util.Date;
 
 public class BrowserSenderServer {
 
+	/**
+	 * Port auf dem die HTTPS GET Requests reinkommen
+	 */
 	public static final int PORT_BROWSER_CON = 2001;
 
+	/**
+	 * Pfad des Ordners der die Website Dateien enthält (=> index.html, javascript.js, etc.)
+	 */
 	private String fileDir = "H:/MintExWebserver/";
-//	private String fileDir = "files/";
 
 	public BrowserSenderServer() {
 		start();
 	}
 
 	public void start() {
-		
-		//getLastDataSets(4);
 		
 		(new Thread() {
 			public void run() {
