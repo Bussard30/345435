@@ -18,17 +18,10 @@ import java.util.Date;
 
 public class BrowserSenderServer {
 
-	/**
-	 * Port auf dem die HTTPS GET Requests reinkommen
-	 */
-	public static final int PORT_BROWSER_CON = 2001;
+	
 
 
-	/**
-	 * Pfad des Ordners der die Website Dateien enthält (=> index.html, javascript.js, etc.)
-	 */
-//	public static final String fileDir = "H:/MintExWebserver/";
-	public static final String fileDir = "WebserverDatacollector/res/";
+	
 
 	public BrowserSenderServer() {
 		start();
@@ -42,8 +35,8 @@ public class BrowserSenderServer {
 
 				ServerSocket serverSocket;
 				try {
-					serverSocket = new ServerSocket(PORT_BROWSER_CON);
-					Logger.log("BSS-BOOT", "started Browser Sender Server (BSS). waiting for incoming Connection on port " + PORT_BROWSER_CON);
+					serverSocket = new ServerSocket(Main.PORT_BROWSER_CON);
+					Logger.log("BSS-BOOT", "started Browser Sender Server (BSS). waiting for incoming Connection on port " + Main.PORT_BROWSER_CON);
 					
 					
 					BufferedReader reader;
@@ -114,7 +107,7 @@ public class BrowserSenderServer {
 				requestedFile = createDataFileIfDoesntExist().getName();
 			
 			
-			File f = new File(fileDir + requestedFile);
+			File f = new File(Main.FILE_DIR + requestedFile);
 			
 			if(!f.exists()) {
 				Logger.log("404", "requested file was not found: '" + requestedFile + "'");
@@ -177,7 +170,7 @@ public class BrowserSenderServer {
             return "text/plain";
 	}
 	
-	private File dataExportFile = new File(fileDir + "dataFile.txt");
+	private File dataExportFile = new File(Main.FILE_DIR + "dataFile.txt");
 	private File createDataFileIfDoesntExist() {
 		//TODO only create a new file, if data was updated!
 		try {
@@ -209,7 +202,7 @@ public class BrowserSenderServer {
 	private String getLastDataSets(int amount) {
 		String dataSets = "";
 		
-		File[] files = DataCollectionServer.dataStoreDir.listFiles();
+		File[] files = Main.DATA_STORE_DIR.listFiles();
 		if(files == null)
 			return null;
 		Arrays.sort(files);

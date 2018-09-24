@@ -10,7 +10,7 @@ public class Logger {
 	/**
 	 * Path of Log file
 	 */
-	private static final File logFile = new File(BrowserSenderServer.fileDir + "/log.txt");
+	private static final File logFile = new File(Main.FILE_DIR + "/log.txt");
 
 	private static void storeLog(String lineHeader, String log) {
 
